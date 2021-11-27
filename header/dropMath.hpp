@@ -11,7 +11,7 @@ namespace dropMath{
 			}
 
 			auto squared_length() -> float {
-				return x*x + y+y; 
+				return x*x + y*y;
 			}
 
 			auto length() -> float {
