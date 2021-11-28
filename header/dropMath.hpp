@@ -28,6 +28,9 @@ namespace math{
 			Vector2(float x=0.f, float y=0.f): x{x}, y{y}{
 			}
 
+			Vector2(const Vector2& other): x{other.x}, y{other.y}{
+			}
+
 			/*
 			Vector2(const Vector3& vec3): x{vec3.x}, y{vec3.y}{
 			}
@@ -139,6 +142,33 @@ namespace math{
 			auto operator-(const Vector2& other) const -> Vector2 {
 				return this->substract(other);
 			}
+
+			auto operator=(const Vector2& other) -> Vector2&{
+				return this->set(other);
+			}
+
+			auto operator-=(const Vector2& other) -> Vector2&{
+				return this->_substract(other);
+			}
+
+			auto operator+=(const Vector2& other) -> Vector2&{
+				return this->_add(other);
+			}
+
+			auto operator/=(const float& divisor) -> Vector2&{
+				return this->_divide(divisor);
+			}
+
+			auto operator*=(const float& factor) -> Vector2&{
+				return this->scale(factor);
+			}
+
+			auto operator%=(const int& d) = delete;
+			auto operator&=(const int& d) = delete;
+			auto operator|=(const int& d) = delete;
+			auto operator^=(const int& d) = delete;
+			auto operator>>=(const int& d) = delete;
+			auto operator<<=(const int& d) = delete;
     };
 	
     class Vector3{
