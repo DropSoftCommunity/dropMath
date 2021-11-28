@@ -2,7 +2,7 @@
 
 #include <math.h>
 
-namespace dropMath{
+namespace drop::math{
     class Vector2{
         float x, y;
 				
