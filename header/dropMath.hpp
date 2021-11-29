@@ -1,11 +1,13 @@
 #pragma once
 
-#include <math.h>
+#include <cmath>
+#include <iostream>
 
 namespace drop{
 namespace math{
 
     class Vector2{
+		static constexpr float tollerance{ 0.001f };
         float x, y;
 				
 		public:
@@ -72,6 +74,10 @@ namespace math{
 
 			auto length() const -> float {
 				return sqrt(this->squared_length());
+			}
+
+			auto to(const Vector2& other) const -> Vector2 {
+				return Vector2(other.getX()-x, other.getY()-y);
 			}
 
 			auto normalized() const -> Vector2 {
@@ -163,14 +169,41 @@ namespace math{
 				return this->scale(factor);
 			}
 
+			auto operator==(const Vector2& other) -> bool {
+				return 
+					abs(x-other.getX() < Vector2::tollerance)
+				 && abs(y-other.getY() < Vector2::tollerance);
+			}
+
+			auto operator!=(const Vector2& other) -> bool {
+				return !(*this==other);
+			}
+
 			auto operator%=(const int& d) = delete;
 			auto operator&=(const int& d) = delete;
 			auto operator|=(const int& d) = delete;
 			auto operator^=(const int& d) = delete;
 			auto operator>>=(const int& d) = delete;
 			auto operator<<=(const int& d) = delete;
+
+			friend
+			std::istream& operator>>( std::istream &in, Vector2& vec );
     };
+
+	auto operator*(float factor, const Vector2& vec) -> Vector2 {
+		return vec.scaled(factor);
+	}
+
+	std::ostream& operator<<( std::ostream &out, const Vector2& vec ) {
+       	out << "[X: " << vec.getX() << " Y: " << vec.getY() << " ]";
+   		return out;
+   	}
 	
+	std::istream& operator>>( std::istream &in, Vector2& vec ) {
+    	in >> vec.x >> vec.y;
+    	return in;
+	}
+
     class Vector3{
         float x, y, z;
 
