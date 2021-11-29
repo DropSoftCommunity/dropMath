@@ -75,7 +75,7 @@ namespace math{
 			}
 
 			auto length() const -> float {
-				return sqrt(this->squared_length());
+				return sqrtf(this->squared_length());
 			}
 
 			auto to(const Vector2& other) const -> Vector2 {
