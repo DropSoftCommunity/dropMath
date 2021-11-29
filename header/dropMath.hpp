@@ -115,11 +115,11 @@ namespace math{
 				return *this;
 			}
 
-			auto substract(const Vector2& other) const -> Vector2 {
+			auto subtract(const Vector2& other) const -> Vector2 {
 				return Vector2(x-other.getX(), y-other.getY());
 			}
 			
-			auto _substract(const Vector2& other) -> Vector2& {
+			auto _subtract(const Vector2& other) -> Vector2& {
 				this->x -= other.getX();
 				this->y -= other.getY();
 				return *this;
@@ -159,7 +159,7 @@ namespace math{
 			}
 
 			auto operator-(const Vector2& other) const -> Vector2 {
-				return this->substract(other);
+				return this->subtract(other);
 			}
 
 			auto operator=(const Vector2& other) -> Vector2&{
@@ -167,7 +167,7 @@ namespace math{
 			}
 
 			auto operator-=(const Vector2& other) -> Vector2&{
-				return this->_substract(other);
+				return this->_subtract(other);
 			}
 
 			auto operator+=(const Vector2& other) -> Vector2&{
