@@ -7,10 +7,11 @@ namespace drop{
 namespace math{
 
     class Vector2{
-		static constexpr float tollerance{ 0.001f };
         float x, y;
 				
 		public:
+			static constexpr float tollerance{ 0.0001f };
+
 			static auto down() -> Vector2{
 				return Vector2(0.f, -1.f);
 			}
@@ -63,6 +64,7 @@ namespace math{
 			}
 
 			auto set(const Vector2& other) -> Vector2& {
+				if(this == &other) return *this;
 				this->x = other.getX();
 				this->y = other.getY();
 				return *this;
@@ -80,12 +82,23 @@ namespace math{
 				return Vector2(other.getX()-x, other.getY()-y);
 			}
 
+			auto moveTowards(const Vector2& other, const float& amt)
+			const -> Vector2{
+				auto to{ this->to(other) };
+				return (*this+to._scale(amt));
+			}
+
+			auto _moveTowards(const Vector2& other, const float& amt)
+			-> Vector2& {
+				return _add(to(other)._scale(amt));
+			}
+
 			auto normalized() const -> Vector2 {
 				auto length{ this->length() };
 				return Vector2(x/length, y/length);
 			}
 
-			auto normalize() -> Vector2& {
+			auto _normalize() -> Vector2& {
 				auto length { this->length() };
 				this->x /= length;
 				this->y /= length;
@@ -96,7 +109,7 @@ namespace math{
 				return Vector2(x*factor, y*factor);
 			}
 
-			auto scale(const float& factor) -> Vector2&{
+			auto _scale(const float& factor) -> Vector2&{
 				this->x *= factor;
 				this->y *= factor;
 				return *this;
@@ -166,13 +179,13 @@ namespace math{
 			}
 
 			auto operator*=(const float& factor) -> Vector2&{
-				return this->scale(factor);
+				return this->_scale(factor);
 			}
 
 			auto operator==(const Vector2& other) -> bool {
 				return 
-					abs(x-other.getX() < Vector2::tollerance)
-				 && abs(y-other.getY() < Vector2::tollerance);
+					fabs(x - other.getX()) < Vector2::tollerance
+				 && fabs(y - other.getY()) < Vector2::tollerance;
 			}
 
 			auto operator!=(const Vector2& other) -> bool {
@@ -190,16 +203,16 @@ namespace math{
 			std::istream& operator>>( std::istream &in, Vector2& vec );
     };
 
-	auto operator*(float factor, const Vector2& vec) -> Vector2 {
+	inline auto operator*(float factor, const Vector2& vec) -> Vector2 {
 		return vec.scaled(factor);
 	}
 
-	std::ostream& operator<<( std::ostream &out, const Vector2& vec ) {
+	inline std::ostream& operator<<( std::ostream &out, const Vector2& vec ) {
        	out << "[X: " << vec.getX() << " Y: " << vec.getY() << " ]";
    		return out;
    	}
 	
-	std::istream& operator>>( std::istream &in, Vector2& vec ) {
+	inline std::istream& operator>>( std::istream &in, Vector2& vec ) {
     	in >> vec.x >> vec.y;
     	return in;
 	}
