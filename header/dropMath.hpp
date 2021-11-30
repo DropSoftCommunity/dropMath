@@ -130,6 +130,22 @@ namespace math{
 				return acos(this->dot_prod(other));
 			}
 
+			inline constexpr
+			auto rotated(const float& angle_deg) const -> Vector2 {
+				return Vector2(
+						x*cos(angle_deg) - y*sin(angle_deg),
+						x*sin(angle_deg) + y*cos(angle_deg)
+				);
+			}
+
+			inline constexpr
+			auto _rotate(const float& angle_deg) -> Vector2& {
+				return this->set(
+						x*cos(angle_deg) - y*sin(angle_deg),
+						x*sin(angle_deg) + y*cos(angle_deg)
+				);
+			}
+
 			inline
 			auto infront_of(const Vector2& other, const Vector2& other_fwd)
 			const -> float {
