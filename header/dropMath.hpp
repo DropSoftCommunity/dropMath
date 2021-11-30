@@ -91,13 +91,17 @@ namespace math{
 				return Vector2(other.getX()-x, other.getY()-y);
 			}
 
-			auto moveTowards(const Vector2& other, const float& amt)
+			auto dot_prod(const Vector2& other) const -> float {
+				return this->x*other.getX() + this->y*other.getY();
+			}
+
+			auto move_towards(const Vector2& other, const float& amt)
 			const -> Vector2{
 				auto to{ this->to(other) };
 				return (*this+to._scale(amt));
 			}
 
-			auto _moveTowards(const Vector2& other, const float& amt)
+			auto _move_towards(const Vector2& other, const float& amt)
 			-> Vector2& {
 				this->changed_length = true;
 				return _add(to(other)._scale(amt));
