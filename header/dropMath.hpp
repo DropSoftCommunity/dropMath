@@ -265,6 +265,13 @@ namespace math{
 				return !(*this==other);
 			}
 
+			inline constexpr
+			auto operator[](const int& index) -> float {
+				[[unlikely]]
+				if(index > 1) return 0.f;	
+				return (!index ? this->getX() : this->getY());
+			}
+
 			auto operator%=(const int& d) = delete;
 			auto operator&=(const int& d) = delete;
 			auto operator|=(const int& d) = delete;
