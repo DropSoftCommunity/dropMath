@@ -10,7 +10,9 @@ class Timer{
 	
 	public:
 		Timer(std::string&& name): name{name}{
-			std::cout << "Test: " << name << " started..." << std::endl;
+			std::cout << "\n----------------------------------------\n" 
+					  << "Test: " << name << " started...\n" 
+					  << "----------------------------------------\n"; 
 			start = std::chrono::high_resolution_clock::now();
 		}
 
@@ -22,8 +24,10 @@ class Timer{
 			
 			auto duration_mic = (end_mic - start_mic).count();
 			auto duration_ms = duration_mic * 0.001;
-
-			std::cout << "Test: " << name << " ended!\n"
+			
+			std::cout
+			<< "----------------------------------------\n"
+			<< "Test: " << name << " ended!\n"
 			<< "Duration: " << duration_ms  << "ms (" 
 			<< duration_mic << "mic)\n"
 			<< "----------------------------------------" << std::endl;

@@ -95,6 +95,18 @@ namespace math{
 				return this->x*other.getX() + this->y*other.getY();
 			}
 
+			auto infront_of(const Vector2& other, const Vector2& other_fwd)
+			const -> float {
+				auto vt { other.to(*this)._normalize() };
+				auto vn { other_fwd.normalized() };
+				return vn.dot_prod(vt);
+			}
+
+			auto behind_of(const Vector2& other, const Vector2& other_fwd)
+			const -> float {
+				return -1.f*infront_of(other, other_fwd);
+			}
+
 			auto move_towards(const Vector2& other, const float& amt)
 			const -> Vector2{
 				auto to{ this->to(other) };
