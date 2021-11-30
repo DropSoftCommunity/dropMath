@@ -109,10 +109,10 @@ namespace math{
 			}
 
 			auto _normalize() -> Vector2& {
-				this->changed_length = true;
 				auto length { this->length() };
 				this->x /= length;
 				this->y /= length;
+				this->changed_length = true;
 				return *this;
 			}
 
