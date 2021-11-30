@@ -106,10 +106,28 @@ namespace math{
 			auto to(const Vector2& other) const -> Vector2 {
 				return Vector2(other.getX()-x, other.getY()-y);
 			}
+			
+			inline
+			auto distance(const Vector2& to) const -> float {
+				return this->to(to).length();
+			}
 
 			inline constexpr
 			auto dot_prod(const Vector2& other) const -> float {
 				return this->x*other.getX() + this->y*other.getY();
+			}
+
+			inline constexpr
+			auto equals(const Vector2& other) const -> bool {
+				return *this == other;
+			}
+
+			inline constexpr
+			auto angle_deg(const Vector2& other) const -> float {
+				[[unlikely]]
+				if(this == &other) return 0.f;
+				if(this->equals(other)) return 0.f;
+				return acos(this->dot_prod(other));
 			}
 
 			inline
@@ -153,6 +171,16 @@ namespace math{
 				this->y /= length;
 				this->changed_length = true;
 				return *this;
+			}
+
+			inline
+			auto set_length(const float& n_length) -> Vector2 const {
+				return this->normalized()._scale(n_length);
+			}
+
+			inline
+			auto _set_length(const float& n_length) -> Vector2& {
+				return this->_normalize()._scale(n_length);
 			}
 
 			inline constexpr
@@ -254,22 +282,20 @@ namespace math{
 			}
 
 			inline constexpr
-			auto operator==(const Vector2& other) -> bool {
+			auto operator==(const Vector2& other) const -> bool {
 				return 
 					fabs(x - other.getX()) < Vector2::tollerance
 				 && fabs(y - other.getY()) < Vector2::tollerance;
 			}
 
 			inline constexpr
-			auto operator!=(const Vector2& other) -> bool {
+			auto operator!=(const Vector2& other) const -> bool {
 				return !(*this==other);
 			}
 
 			inline constexpr
-			auto operator[](const int& index) -> float {
-				[[unlikely]]
-				if(index > 1) return 0.f;	
-				return (!index ? this->getX() : this->getY());
+			auto operator[](const int& index) -> float& {
+				return (!index ? this->x : this->y);
 			}
 
 			auto operator%=(const int& d) = delete;
