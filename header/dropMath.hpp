@@ -13,25 +13,27 @@ namespace math{
 		public:
 			static constexpr float tollerance{ 0.0001f };
 
-			static auto down() -> Vector2{
+			inline static auto down() -> Vector2{
 				return Vector2(0.f, -1.f);
 			}
 
-			static auto left() -> Vector2{
+			inline static auto left() -> Vector2{
 				return Vector2(-1.f, 0.f);
 			}
 
-			static auto right() -> Vector2{
+			inline static auto right() -> Vector2{
 				return Vector2(1.f, 0.f);
 			}
 
-			static auto up() -> Vector2{
+			inline static auto up() -> Vector2{
 				return Vector2(0.f, 0.f);
 			}
-
+			
+			inline
 			Vector2(float x=0.f, float y=0.f): changed_length{true}, x{x}, y{y}{
 			}
 
+			inline
 			Vector2(const Vector2& other): changed_length{true}, x{other.x}, y{other.y}{
 			}
 
@@ -40,34 +42,34 @@ namespace math{
 			}
 			*/
 
-			auto getX() const -> float {
+			inline auto getX() const -> float {
 				return this->x;
 			}
 			
-			auto getY() const -> float {
+			inline auto getY() const -> float {
 				return this->y;
 			}
 
-			auto setX(const float& new_x) -> Vector2& {
+			inline auto setX(const float& new_x) -> Vector2& {
 				this->changed_length = true;
 				this->x = new_x;
 				return *this;
 			}
 
-			auto setY(const float& new_y) -> Vector2& {
+			inline auto setY(const float& new_y) -> Vector2& {
 				this->changed_length = true;
 				this->y = new_y;
 				return *this;
 			}
 
-			auto set(const float& new_x, const float& new_y) -> Vector2& {
+			inline auto set(const float& new_x, const float& new_y) -> Vector2& {
 				this->changed_length = true;
 				this->x = new_x;
 				this->y = new_y;
 				return *this;
 			}
 
-			auto set(const Vector2& other) -> Vector2& {
+			inline auto set(const Vector2& other) -> Vector2& {
 				if(this == &other) return *this;
 				this->changed_length = true;
 				this->x = other.getX();
@@ -75,7 +77,7 @@ namespace math{
 				return *this;
 			}
 
-			auto squared_length() const -> float {
+			inline auto squared_length() const -> float {
 				return x*x + y*y;
 			}
 
@@ -87,44 +89,44 @@ namespace math{
 				return cache;
 			}
 
-			auto to(const Vector2& other) const -> Vector2 {
+			inline auto to(const Vector2& other) const -> Vector2 {
 				return Vector2(other.getX()-x, other.getY()-y);
 			}
 
-			auto dot_prod(const Vector2& other) const -> float {
+			inline auto dot_prod(const Vector2& other) const -> float {
 				return this->x*other.getX() + this->y*other.getY();
 			}
 
-			auto infront_of(const Vector2& other, const Vector2& other_fwd)
+			inline auto infront_of(const Vector2& other, const Vector2& other_fwd)
 			const -> float {
 				auto vt { other.to(*this)._normalize() };
 				auto vn { other_fwd.normalized() };
 				return vn.dot_prod(vt);
 			}
 
-			auto behind_of(const Vector2& other, const Vector2& other_fwd)
+			inline auto behind_of(const Vector2& other, const Vector2& other_fwd)
 			const -> float {
 				return -1.f*infront_of(other, other_fwd);
 			}
 
-			auto move_towards(const Vector2& other, const float& amt)
+			inline auto move_towards(const Vector2& other, const float& amt)
 			const -> Vector2{
 				auto to{ this->to(other) };
 				return (*this+to._scale(amt));
 			}
 
-			auto _move_towards(const Vector2& other, const float& amt)
+			inline auto _move_towards(const Vector2& other, const float& amt)
 			-> Vector2& {
 				this->changed_length = true;
 				return _add(to(other)._scale(amt));
 			}
 
-			auto normalized() const -> Vector2 {
+			inline auto normalized() const -> Vector2 {
 				auto length{ this->length() };
 				return Vector2(x/length, y/length);
 			}
 
-			auto _normalize() -> Vector2& {
+			inline auto _normalize() -> Vector2& {
 				auto length { this->length() };
 				this->x /= length;
 				this->y /= length;
@@ -132,94 +134,94 @@ namespace math{
 				return *this;
 			}
 
-			auto scaled(const float& factor) const -> Vector2{
+			inline auto scaled(const float& factor) const -> Vector2{
 				return Vector2(x*factor, y*factor);
 			}
 
-			auto _scale(const float& factor) -> Vector2&{
+			inline auto _scale(const float& factor) -> Vector2&{
 				this->changed_length = true;
 				this->x *= factor;
 				this->y *= factor;
 				return *this;
 			}
 
-			auto subtract(const Vector2& other) const -> Vector2 {
+			inline auto subtract(const Vector2& other) const -> Vector2 {
 				return Vector2(x-other.getX(), y-other.getY());
 			}
 			
-			auto _subtract(const Vector2& other) -> Vector2& {
+			inline auto _subtract(const Vector2& other) -> Vector2& {
 				this->changed_length = true;
 				this->x -= other.getX();
 				this->y -= other.getY();
 				return *this;
 			}
 
-			auto divide(const float& divisor) const -> Vector2 {
+			inline auto divide(const float& divisor) const -> Vector2 {
 				//if(divisor == 0) return Vector2.infinity;
 				return Vector2(x/divisor, y/divisor);
 			}
 
-			auto _divide(const float& divisor) -> Vector2& {
+			inline auto _divide(const float& divisor) -> Vector2& {
 				this->changed_length = true;
 				this->x /= divisor;
 				this->y /= divisor;
 				return *this;
 			}
 
-			auto add(const Vector2& other) const -> Vector2 {
+			inline auto add(const Vector2& other) const -> Vector2 {
 				return Vector2(x+other.getX(), y+other.getY()); 
 			}
 
-			auto _add(const Vector2& other) -> Vector2& {
+			inline auto _add(const Vector2& other) -> Vector2& {
 				this->changed_length = true;
 				this->x += other.getX();
 				this->y += other.getY();
 				return *this;
 			}
 
-			auto operator*(const float& factor) const -> Vector2 {
+			inline auto operator*(const float& factor) const -> Vector2 {
 				return this->scaled(factor);
 			}
 
-			auto operator/(const float& divisor) const -> Vector2 {
+			inline auto operator/(const float& divisor) const -> Vector2 {
 				return this->divide(divisor);
 			}
 
-			auto operator+(const Vector2& other) const -> Vector2 {
+			inline auto operator+(const Vector2& other) const -> Vector2 {
 				return this->add(other);
 			}
 
-			auto operator-(const Vector2& other) const -> Vector2 {
+			inline auto operator-(const Vector2& other) const -> Vector2 {
 				return this->subtract(other);
 			}
 
-			auto operator=(const Vector2& other) -> Vector2&{
+			inline auto operator=(const Vector2& other) -> Vector2&{
 				return this->set(other);
 			}
 
-			auto operator-=(const Vector2& other) -> Vector2&{
+			inline auto operator-=(const Vector2& other) -> Vector2&{
 				return this->_subtract(other);
 			}
 
-			auto operator+=(const Vector2& other) -> Vector2&{
+			inline auto operator+=(const Vector2& other) -> Vector2&{
 				return this->_add(other);
 			}
 
-			auto operator/=(const float& divisor) -> Vector2&{
+			inline auto operator/=(const float& divisor) -> Vector2&{
 				return this->_divide(divisor);
 			}
 
-			auto operator*=(const float& factor) -> Vector2&{
+			inline auto operator*=(const float& factor) -> Vector2&{
 				return this->_scale(factor);
 			}
 
-			auto operator==(const Vector2& other) -> bool {
+			inline auto operator==(const Vector2& other) -> bool {
 				return 
 					fabs(x - other.getX()) < Vector2::tollerance
 				 && fabs(y - other.getY()) < Vector2::tollerance;
 			}
 
-			auto operator!=(const Vector2& other) -> bool {
+			inline auto operator!=(const Vector2& other) -> bool {
 				return !(*this==other);
 			}
 
@@ -231,19 +233,22 @@ namespace math{
 			auto operator<<=(const int& d) = delete;
 
 			friend
-			std::istream& operator>>( std::istream &in, Vector2& vec );
+			auto operator>>(std::istream &in, Vector2& vec)
+			-> std::istream&;
     };
 
 	inline auto operator*(float factor, const Vector2& vec) -> Vector2 {
 		return vec.scaled(factor);
 	}
 
-	inline std::ostream& operator<<( std::ostream &out, const Vector2& vec ) {
+	inline auto operator<<(std::ostream &out, const Vector2& vec) 
+	-> std::ostream& {
        	out << "[X: " << vec.getX() << " Y: " << vec.getY() << " ]";
    		return out;
    	}
 	
-	inline std::istream& operator>>( std::istream &in, Vector2& vec ) {
+	inline auto operator>>(std::istream &in, Vector2& vec)
+	-> std::istream& {
     	in >> vec.x >> vec.y;
     	return in;
 	}
@@ -263,6 +268,15 @@ namespace math{
             return sqrt(this->squared_length());
         }
     };
+
+	inline auto lerp(const float& goal, const float& current, const float& step=0.1f)
+	-> float {
+		auto dif{ goal - current };
+		[[likely]]
+		if(dif > step)  return current+step;
+		if(dif < -step) return current-step;
+		return goal;
+	}
 }
 }
 
