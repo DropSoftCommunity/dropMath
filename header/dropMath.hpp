@@ -7,6 +7,7 @@ namespace drop{
 namespace math{
 
     class Vector2{
+		mutable bool changed_length;
         float x, y;
 				
 		public:
@@ -28,10 +29,10 @@ namespace math{
 				return Vector2(0.f, 0.f);
 			}
 
-			Vector2(float x=0.f, float y=0.f): x{x}, y{y}{
+			Vector2(float x=0.f, float y=0.f): changed_length{true}, x{x}, y{y}{
 			}
 
-			Vector2(const Vector2& other): x{other.x}, y{other.y}{
+			Vector2(const Vector2& other): changed_length{true}, x{other.x}, y{other.y}{
 			}
 
 			/*
@@ -48,16 +49,19 @@ namespace math{
 			}
 
 			auto setX(const float& new_x) -> Vector2& {
+				this->changed_length = true;
 				this->x = new_x;
 				return *this;
 			}
 
 			auto setY(const float& new_y) -> Vector2& {
+				this->changed_length = true;
 				this->y = new_y;
 				return *this;
 			}
 
 			auto set(const float& new_x, const float& new_y) -> Vector2& {
+				this->changed_length = true;
 				this->x = new_x;
 				this->y = new_y;
 				return *this;
@@ -65,6 +69,7 @@ namespace math{
 
 			auto set(const Vector2& other) -> Vector2& {
 				if(this == &other) return *this;
+				this->changed_length = true;
 				this->x = other.getX();
 				this->y = other.getY();
 				return *this;
@@ -75,7 +80,11 @@ namespace math{
 			}
 
 			auto length() const -> float {
-				return sqrtf(this->squared_length());
+				static auto cache{ 0.f };;
+				if(changed_length)
+					cache = sqrtf(this->squared_length());
+				this->changed_length = false;
+				return cache;
 			}
 
 			auto to(const Vector2& other) const -> Vector2 {
@@ -90,6 +99,7 @@ namespace math{
 
 			auto _moveTowards(const Vector2& other, const float& amt)
 			-> Vector2& {
+				this->changed_length = true;
 				return _add(to(other)._scale(amt));
 			}
 
@@ -99,6 +109,7 @@ namespace math{
 			}
 
 			auto _normalize() -> Vector2& {
+				this->changed_length = true;
 				auto length { this->length() };
 				this->x /= length;
 				this->y /= length;
@@ -110,6 +121,7 @@ namespace math{
 			}
 
 			auto _scale(const float& factor) -> Vector2&{
+				this->changed_length = true;
 				this->x *= factor;
 				this->y *= factor;
 				return *this;
@@ -120,6 +132,7 @@ namespace math{
 			}
 			
 			auto _subtract(const Vector2& other) -> Vector2& {
+				this->changed_length = true;
 				this->x -= other.getX();
 				this->y -= other.getY();
 				return *this;
@@ -131,6 +144,7 @@ namespace math{
 			}
 
 			auto _divide(const float& divisor) -> Vector2& {
+				this->changed_length = true;
 				this->x /= divisor;
 				this->y /= divisor;
 				return *this;
@@ -141,6 +155,7 @@ namespace math{
 			}
 
 			auto _add(const Vector2& other) -> Vector2& {
+				this->changed_length = true;
 				this->x += other.getX();
 				this->y += other.getY();
 				return *this;
