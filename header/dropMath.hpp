@@ -1140,7 +1140,7 @@ namespace math{
     }
 
     inline constexpr
-    auto powZ(float& base, const int& exp)-> float {
+    auto powZ(float base, const int& exp)-> float {
         if(base == 0 || exp == 0){
             return 1;
         }else{
