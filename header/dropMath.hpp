@@ -471,7 +471,7 @@ namespace math{
 				return this->to(to).length();
 			}
 
-			inline constexpr
+			inline 
 			auto dot_prod(const Vector3& other) const -> float {
 				return Vector3(x*other.x, y*other.y, z*other.z).length()
 					   *cos(this->angle_deg(other));
