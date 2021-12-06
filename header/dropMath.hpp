@@ -1142,14 +1142,17 @@ namespace math{
     inline constexpr
     auto powZ(const float& b, const int& exp)-> float {
         auto base{b};
+        [[unlikely]]
         if(base == 0 || exp == 0){
             return 1;
-        }else{
+        }
+        [[likely]]
+        else{
             for(int i{1}; i<exp; ++i){
                 base *= b;
             }
             if(exp<0){
-                base = 1/b; //return 1/b;
+                return 1/b;
             }
         }
         return base;
