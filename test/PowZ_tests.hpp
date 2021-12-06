@@ -4,8 +4,8 @@ bool PowZ_tests(){
 	using drop::math::powZ;
     auto t{ Timer("PowZ ultimative test") };
 
-
-	std::cout << powZ(2,3) << std::endl;
+    for(int i{}; i<1000;++i)
+	std::cout << powZ(2,i) << std::endl;
 
 
 
