@@ -1129,16 +1129,30 @@ namespace math{
 		}
 	};
 
-	inline constexpr
-	auto lerp(const float& goal, const float& current, const float& step)
-	-> float {
-		auto dif{ goal - current };
-		[[likely]]
-		if(dif > step)  return current+step;
-		if(dif < -step) return current-step;
-		[[unlikely]]
-		return goal;
-	}
+    inline constexpr
+    auto lerp(const float& goal, const float& current, const float& step)-> float {
+    auto dif{ goal - current };
+    [[likely]]
+    if(dif > step)  return current+step;
+    if(dif < -step) return current-step;
+    [[unlikely]]
+    return goal;
+    }
+
+    inline constexpr
+    auto powZ(const float& base, const int& exp)-> float {
+        if(base == 0 || exp == 0){
+            return 1;
+        }else{
+            for(int i{1}; i<exp; ++i){
+                base *= base;
+            }
+            if(exp<0){
+                x = 1/x;
+            }
+        }
+        return x;
+    }
 }
 }
 
