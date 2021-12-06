@@ -489,7 +489,7 @@ namespace math{
 				return *this == other;
 			}
 
-			inline constexpr
+			inline 
 			auto angle_deg(const Vector3& other) const -> float {
 				return acos((x*other.x+y*other.y+z*other.z)
 						/(this->length() * other.length()));
