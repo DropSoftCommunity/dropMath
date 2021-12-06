@@ -5,7 +5,7 @@ bool PowZ_tests(){
     auto t{ Timer("PowZ ultimative test") };
 
     for(int i{}; i<1000;++i)
-	std::cout << powZ(2,i) << std::endl;
+	std::cout << powZ(i,5) << std::endl;
 
 
 
