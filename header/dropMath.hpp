@@ -1128,6 +1128,27 @@ namespace math{
 			return point.subtract(a.add(a.to(point).project(asVec2()))).length();	
 		}
 	};
+	
+	class Matrix_2x2 {
+		Vector2 i, j;
+	public:
+		inline static constexpr
+		auto identity() -> Matrix_2x2 {
+			return Matrix_2x2({1.f, 0.f}, {0.f, 1.f});
+		}
+		
+		inline constexpr
+		Matrix_2x2(const Vector2& i, const Vector2& j)
+		:i{i}, j{j}{}
+
+		inline constexpr
+		Matrix_2x2(Vector2&& i, Vector2&& j)
+		:i{i}, j{j}{}
+
+		inline constexpr
+		Matrix_2x2(float x1, float x2, float x3, float x4):
+		i(x1, x2), j(x3, x4){}
+	};
 
     inline constexpr
     auto lerp(const float& goal, const float& current, const float& step)-> float {
@@ -1139,17 +1160,28 @@ namespace math{
     return goal;
     }
 
+	inline constexpr
+	auto min(float& a, float& b) -> float& {
+		return a<b?a:b;
+	}
+
+	inline constexpr
+	auto max(float& a, float& b) -> float& {
+		return a>b?a:b;
+	}
+
     inline constexpr
     auto powZ(const float& b, const int& exp)-> float {
-        auto base{b};
-        //[[unlikely]]
-        if((base || exp) == 0){
+        [[unlikely]]
+        if((b || exp) == 0){
             return 1;
         }
-        //[[likely]]
+
+        auto base{b};
         for(int i{1}; i<exp; ++i){
             base *= b;
         }
+
         if(exp<0){
             return 1/b;
         }

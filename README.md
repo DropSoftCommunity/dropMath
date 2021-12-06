@@ -1,3 +1,4 @@
+<img src="icon.png" align="right" />
 # dropMath
 
 > The simple single header math library
