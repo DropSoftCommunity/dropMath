@@ -1123,7 +1123,7 @@ namespace math{
 			return a+intersect_fraction(rectangle)*asVec2();
 		}
 		
-		inline constexpr
+		inline
 		auto disctance_to(const Vector2& point) const -> float {
 			return point.subtract(a.add(a.to(point).project(asVec2()))).length();	
 		}
