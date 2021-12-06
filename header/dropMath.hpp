@@ -1148,10 +1148,10 @@ namespace math{
                 base *= base;
             }
             if(exp<0){
-                x = 1/x;
+                base = 1/base;
             }
         }
-        return x;
+        return base;
     }
 }
 }
