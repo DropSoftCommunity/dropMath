@@ -1,9 +1,9 @@
 #pragma once
 inline
 bool PowZ_tests(){
-	using pow = drop::math::powZ;
+	using drop::math::powZ;
 
-	std::cout << pow(2,3) std::endl;
+	std::cout << powZ(2,3) std::endl;
 
 
 
