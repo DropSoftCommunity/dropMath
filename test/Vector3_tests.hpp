@@ -27,10 +27,10 @@ auto Vector3_test() -> bool {
 
 		auto left{ look_direction.cross_prod(up)._normalize() };
 
-		std::cout << "Our start position: " << position;
+		std::cout << "Our start position: \n" << position;
 
 		position += 2*look_direction + 3*left;
-		std::cout << "\nAfter taking 2 steps forward and 3 steps to the right:"
+		std::cout << "\n\nAfter taking 2 steps forward\nand 3 steps to the left:\n"
 		<< position << std::endl;
 		assert(position == Vector3(0.f, 0.f, 6.f));
 	}

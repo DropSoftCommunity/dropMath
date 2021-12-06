@@ -189,8 +189,18 @@ namespace math{
 				return *this;
 			}
 
+			inline constexpr
+			auto project(const Vector2& other) const -> Vector2 {
+				return (this->dot_prod(other)/other.dot_prod(other));
+			}
+
+			inline constexpr
+			auto _project(const Vector2& other) -> Vector2& {
+				return this->set(project(other));
+			}
+
 			inline
-			auto set_length(const float& n_length) -> Vector2 const {
+			auto set_length(const float& n_length) -> Vector2 {
 				return this->normalized()._scale(n_length);
 			}
 
@@ -1033,6 +1043,91 @@ namespace math{
     	in >> vec.x >> vec.y >> vec.z >> vec.w;
     	return in;
 	}
+
+	class Rect {
+		float x, y;
+		float width, height;
+		
+	public:
+		inline constexpr
+		Rect(float x, float y, float width, float height)
+		:x{x}, y{y}, width{width}, height{height}{}
+
+		inline constexpr
+		auto getXMin() const -> float {
+			[[likely]]
+			if(width > 0) return x;
+			return x+width;
+		}
+
+		inline constexpr
+		auto getXMax() const -> float {
+			[[likely]]
+			if(width > 0) return x+width;
+			return x;
+		}
+
+		inline constexpr
+		auto getYMax() const -> float {
+			[[likely]]
+			if(height > 0) return y+height;
+			return y;
+		}
+
+		inline constexpr
+		auto getYMin() const -> float {
+			[[likely]]
+			if(height > 0) return y;
+			return y+height;
+		}
+	};
+
+	class Line2d {
+		Vector2 a, b;
+	public:
+		inline constexpr
+		Line2d(const Vector2& from, const Vector2& to)
+		:a{from}, b{to} {}
+
+		inline constexpr
+		Line2d(Vector2&& from, Vector2&& to)
+		:a{from}, b{to} {}
+
+		inline constexpr
+		auto getFrom() const -> const Vector2& {
+			return a;
+		}
+
+		inline constexpr
+		auto getTo() const -> const Vector2 {
+			return b;
+		}
+
+		inline constexpr
+		auto intersect_fraction(const Rect& rectangle) const -> float {
+			auto fract{ Vector2(
+				((rectangle.getYMin() - a.getY())/(b.getY() - a.getY())),
+				((rectangle.getXMin() - a.getX())/(b.getX() - a.getX()))
+			)};
+			
+			return fract.getX() > fract.getY() ? fract.getX() : fract.getY();
+		}
+
+		inline constexpr
+		auto asVec2() const -> Vector2 {
+			return (b-a);
+		}
+
+		inline constexpr
+		auto intersect_point(const Rect& rectangle) const -> Vector2 {
+			return a+intersect_fraction(rectangle)*asVec2();
+		}
+		
+		inline constexpr
+		auto disctance_to(const Vector2& point) const -> float {
+			return point.subtract(a.add(a.to(point).project(asVec2()))).length();	
+		}
+	};
 
 	inline constexpr
 	auto lerp(const float& goal, const float& current, const float& step)
