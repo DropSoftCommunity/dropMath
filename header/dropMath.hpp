@@ -1128,6 +1128,35 @@ namespace math{
 			return point.subtract(a.add(a.to(point).project(asVec2()))).length();	
 		}
 	};
+	
+	class Matrix_2x2 {
+		Vector2 i, j;
+	public:
+		inline static constexpr
+		auto identity() -> Matrix_2x2 {
+			return Matrix_2x2({1.f, 0.f}, {0.f, 1.f});
+		}
+
+		inline static constexpr
+		auto rotation(float angle_deg=90.f) -> Matrix_2x2 {
+			return Matrix_2x2(
+				{cosf(angle_deg), sinf(angle_deg)},
+				{-sinf(angle_deg), cosf(angle_deg)}
+			);
+		}
+		
+		inline constexpr
+		Matrix_2x2(const Vector2& i, const Vector2& j)
+		:i{i}, j{j}{}
+
+		inline constexpr
+		Matrix_2x2(Vector2&& i, Vector2&& j)
+		:i{i}, j{j}{}
+
+		inline constexpr
+		Matrix_2x2(float x1, float x2, float x3, float x4):
+		i(x1, x2), j(x3, x4){}
+	};
 
     inline constexpr
     auto lerp(const float& goal, const float& current, const float& step)-> float {
@@ -1139,22 +1168,38 @@ namespace math{
     return goal;
     }
 
+	inline constexpr
+	auto min(float& a, float& b) -> float& {
+		return a<b?a:b;
+	}
+
+	inline constexpr
+	auto max(float& a, float& b) -> float& {
+		return a>b?a:b;
+	}
+
     inline constexpr
     auto powZ(const float& b, const int& exp)-> float {
+        [[unlikely]]
+        if((b || exp) == 0){
+            return 1;
+        }
+
         auto base{b};
-        //[[unlikely]]
-        if(exp == 0) return 1;
-        if(b == 0 && exp>0) return 0;
-        if(b == 0 && exp<0) return infinity;
-        //[[likely]]
         for(int i{1}; i<exp; ++i){
             base *= b;
         }
+
         if(exp<0){
             return 1/b;
         }
         return base;
     }
+
+	inline 
+	auto pow(const float& b, const float& exp) -> float {
+  		 return __builtin_powf(b, exp); 
+	}
 }
 }
 

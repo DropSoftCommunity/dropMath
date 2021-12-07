@@ -14,14 +14,17 @@ int main(){
 
 	if(!Vector3_test()){
 		std::cerr << "Vector3 tests failed!" << std::endl;
+		return 2;
 	}
 
 	if(!line_box_test()){
 		std::cerr << "Line-Box tests failed!" << std::endl;
+		return 3;
 	}
 
 	if(!PowZ_tests()){
 	    std::cerr <<"PowZ tests failed failed!" << std::endl;
+		return 4;
 	}
 
 }
