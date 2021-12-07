@@ -13,7 +13,7 @@ bool PowZ_tests(){
     auto t{ Timer("PowZ ultimative test") };
 
     for(int i{0}; i<10000;++i)
-	std::cout << powZ(i,2) << std::endl;
+	std::cout << powZ(rand() % 101-1,rand() % 101-1) << std::endl;
 	}
 
 
