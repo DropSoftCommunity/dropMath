@@ -1181,8 +1181,12 @@ namespace math{
     inline constexpr
     auto powZ(const float& b, const int& exp)-> float {
         [[unlikely]]
-        if(b == 0 && exp<0) return std::round_toward_infinity;
-        if(b == 0) return 1;
+        if(b == 0){
+            if(exp<0){
+                return std::round_toward_infinity;
+            }
+            return 1;
+        }
         if(exp == 0) return 0;
 
         [[likely]]
@@ -1203,4 +1207,3 @@ namespace math{
 	}
 }
 }
-
