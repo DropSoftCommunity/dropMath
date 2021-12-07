@@ -1136,6 +1136,14 @@ namespace math{
 		auto identity() -> Matrix_2x2 {
 			return Matrix_2x2({1.f, 0.f}, {0.f, 1.f});
 		}
+
+		inline static constexpr
+		auto rotation(float angle_deg=90.f) -> Matrix_2x2 {
+			return Matrix_2x2(
+				{cosf(angle_deg), sinf(angle_deg)},
+				{-sinf(angle_deg), cosf(angle_deg)}
+			);
+		}
 		
 		inline constexpr
 		Matrix_2x2(const Vector2& i, const Vector2& j)
@@ -1187,6 +1195,11 @@ namespace math{
         }
         return base;
     }
+
+	inline 
+	auto pow(const float& b, const float& exp) -> float {
+  		 return __builtin_powf(b, exp); 
+	}
 }
 }
 
