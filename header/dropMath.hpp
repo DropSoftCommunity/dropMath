@@ -1185,6 +1185,7 @@ namespace math{
         if(b == 0) return 1;
         if(exp == 0) return 0;
 
+        [[likely]]
         auto base{b};
         for(int i{1}; i<exp; ++i){
             base *= b;
