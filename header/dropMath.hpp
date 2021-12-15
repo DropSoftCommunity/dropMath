@@ -1208,6 +1208,19 @@ namespace math{
 		}
 
 		inline constexpr
+		auto solveFor(const Vector2& results) const -> Vector2 {
+			auto det{ determinant() };
+			
+			auto m1{ Matrix_2x2(results, j) };
+			auto m2{ Matrix_2x2(i, results) };
+
+			auto d1{ m1.determinant() };
+			auto d2{ m2.determinant() };
+
+			return Vector2(d1/det, d2/det);
+		}
+
+		inline constexpr
 		auto operator*(const float& factor) const -> Matrix_2x2{
 			return this->scaled(factor);
 		}
@@ -1270,6 +1283,26 @@ namespace math{
    		return out;
    	}
 	
+	inline constexpr
+	auto diffeentiate(const float& func) -> float {
+		return 0;
+	}
+
+	inline constexpr
+	auto integrate(const float& func) -> Vector2 {
+		return Vector2(func, 0.f); 
+	}
+
+	inline constexpr 
+	auto differentiate(const Vector2& func) -> float {
+		return func.getX();
+	}
+
+	inline constexpr
+	auto integrate(const Vector2& func) -> Vector3 {
+		return Vector3(func.getX()/2, func.getY(), 0.f);	
+	}
+
 	class Rect {
 		float x, y;
 		float width, height;
