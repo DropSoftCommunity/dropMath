@@ -7,12 +7,15 @@
 namespace drop{
 namespace math{
 
+	static inline constexpr
+	auto floatTollerance{ 0.0001f };
+
     class Vector2{
 		mutable bool changed_length;
         float x, y;
 				
 		public:
-			static constexpr float tollerance{ 0.0001f };
+			static constexpr float tollerance{ floatTollerance };
 
 			static constexpr auto infinity() -> Vector2 {
 				const auto inf{ std::numeric_limits<float>::infinity()};
@@ -360,7 +363,7 @@ namespace math{
         float x, y, z;
 				
 		public:
-			static constexpr float tollerance{ 0.0001f };
+			static constexpr float tollerance{ floatTollerance };
 
 			static constexpr auto infinity() -> Vector3 {
 				const auto inf{ std::numeric_limits<float>::infinity()};
@@ -721,7 +724,7 @@ namespace math{
         float x, y, z, w;
 				
 		public:
-			static constexpr float tollerance{ 0.0001f };
+			static constexpr float tollerance{ floatTollerance };
 
 			static constexpr auto infinity() -> Vector4 {
 				const auto inf{ std::numeric_limits<float>::infinity()};
@@ -787,7 +790,8 @@ namespace math{
 			}
 
 			inline constexpr
-			auto set(const float& new_x, const float& new_y, const float& new_z, const float& new_w)
+			auto set(const float& new_x, const float& new_y, 
+					 const float& new_z, const float& new_w)
 			-> Vector4& {
 				this->changed_length = true;
 				this->x = new_x;
@@ -1010,12 +1014,12 @@ namespace math{
 				}
 			}
 
-			auto operator%=(const int& d) = delete;
-			auto operator&=(const int& d) = delete;
-			auto operator|=(const int& d) = delete;
-			auto operator^=(const int& d) = delete;
-			auto operator>>=(const int& d) = delete;
-			auto operator<<=(const int& d) = delete;
+			auto operator%=	(const int& d) 	= delete;
+			auto operator&=	(const int& d) 	= delete;
+			auto operator|=	(const int& d) 	= delete;
+			auto operator^=	(const int& d) 	= delete;
+			auto operator>>=(const int& d) 	= delete;
+			auto operator<<=(const int& d) 	= delete;
 
 			friend inline 
 			auto operator>>(std::istream &in, Vector4& vec)
@@ -1044,91 +1048,6 @@ namespace math{
     	return in;
 	}
 
-	class Rect {
-		float x, y;
-		float width, height;
-		
-	public:
-		inline constexpr
-		Rect(float x, float y, float width, float height)
-		:x{x}, y{y}, width{width}, height{height}{}
-
-		inline constexpr
-		auto getXMin() const -> float {
-			[[likely]]
-			if(width > 0) return x;
-			return x+width;
-		}
-
-		inline constexpr
-		auto getXMax() const -> float {
-			[[likely]]
-			if(width > 0) return x+width;
-			return x;
-		}
-
-		inline constexpr
-		auto getYMax() const -> float {
-			[[likely]]
-			if(height > 0) return y+height;
-			return y;
-		}
-
-		inline constexpr
-		auto getYMin() const -> float {
-			[[likely]]
-			if(height > 0) return y;
-			return y+height;
-		}
-	};
-
-	class Line2d {
-		Vector2 a, b;
-	public:
-		inline constexpr
-		Line2d(const Vector2& from, const Vector2& to)
-		:a{from}, b{to} {}
-
-		inline constexpr
-		Line2d(Vector2&& from, Vector2&& to)
-		:a{from}, b{to} {}
-
-		inline constexpr
-		auto getFrom() const -> const Vector2& {
-			return a;
-		}
-
-		inline constexpr
-		auto getTo() const -> const Vector2 {
-			return b;
-		}
-
-		inline constexpr
-		auto intersect_fraction(const Rect& rectangle) const -> float {
-			auto fract{ Vector2(
-				((rectangle.getYMin() - a.getY())/(b.getY() - a.getY())),
-				((rectangle.getXMin() - a.getX())/(b.getX() - a.getX()))
-			)};
-			
-			return fract.getX() > fract.getY() ? fract.getX() : fract.getY();
-		}
-
-		inline constexpr
-		auto asVec2() const -> Vector2 {
-			return (b-a);
-		}
-
-		inline constexpr
-		auto intersect_point(const Rect& rectangle) const -> Vector2 {
-			return a+intersect_fraction(rectangle)*asVec2();
-		}
-		
-		inline
-		auto disctance_to(const Vector2& point) const -> float {
-			return point.subtract(a.add(a.to(point).project(asVec2()))).length();	
-		}
-	};
-	
 	class Matrix_2x2 {
 		Vector2 i, j;
 	public:
@@ -1261,8 +1180,181 @@ namespace math{
 				  i.getY()*m.j.getX() + j.getY()*m.j.getY() }
 			);
 		}
+
+		inline constexpr
+		auto applyTo(Matrix_2x2& m) const -> Matrix_2x2& {
+			m.i.set(
+				i.getX()*m.i.getX() + j.getX()*m.i.getY(),
+				i.getY()*m.i.getX() + j.getY()*m.i.getY() 
+			);
+			m.j.set(
+				i.getX()*m.j.getX() + j.getX()*m.j.getY(),
+				i.getY()*m.j.getX() + j.getY()*m.j.getY() 
+			);
+			return m;
+		}
+
+		inline constexpr
+		auto _selfApply(Matrix_2x2& m) -> Matrix_2x2& {
+			this->i.set(
+				m.i.getX()*i.getX() + m.j.getX()*i.getY(),
+				m.i.getY()*i.getX() + m.j.getY()*i.getY() 
+			);
+			this->j.set(
+				m.i.getX()*j.getX() + m.j.getX()*j.getY(),
+				m.i.getY()*j.getX() + m.j.getY()*j.getY() 
+			);
+			return *this;
+		}
+
+		inline constexpr
+		auto operator*(const float& factor) const -> Matrix_2x2{
+			return this->scaled(factor);
+		}
+
+		inline constexpr
+		auto operator/(const float& divisor) const -> Matrix_2x2{
+			return this->scaled(1.f/divisor);
+		}
+
+		inline constexpr
+		auto operator=(const Matrix_2x2& other) -> Matrix_2x2&{
+			this->i.set(other.i);
+			this->j.set(other.j);
+			
+			return *this;
+		}
+
+		inline constexpr
+		auto operator/=(const float& divisor) -> Matrix_2x2&{
+			return this->_scale(1.f/divisor);
+		}
+
+		inline constexpr
+		auto operator*=(const float& factor) -> Matrix_2x2&{
+			return this->_scale(factor);
+		}
+
+		inline constexpr
+		auto operator==(const Matrix_2x2& other) const -> bool {
+			return 
+			   fabs(i.getX() - other.i.getX()) < Vector2::tollerance
+		 	&& fabs(i.getY() - other.i.getY()) < Vector2::tollerance
+		 	&& fabs(j.getX() - other.j.getX()) < Vector2::tollerance
+		 	&& fabs(j.getY() - other.j.getY()) < Vector2::tollerance;
+		}
+
+		inline constexpr
+		auto operator!=(const Matrix_2x2& other) const -> bool {
+			return !(*this==other);
+		}
+
+		friend inline
+		auto operator<<(std::ostream &out, const Matrix_2x2& m)
+		-> std::ostream&;
 	};
 
+	inline constexpr
+	auto operator*(float scalar, const Matrix_2x2& m) -> Matrix_2x2 {
+		return m.scaled(scalar);
+	}
+
+	inline 
+	auto operator<<(std::ostream &out, const Matrix_2x2& m) 
+	-> std::ostream& {
+       	out << "[ " 	<< m.i.getX() 
+			<< " | " 	<< m.j.getX() 
+			<< " ]\n[ " << m.i.getY() 
+			<< " | " 	<< m.j.getY() 
+			<< " ]";
+   		return out;
+   	}
+	
+	class Rect {
+		float x, y;
+		float width, height;
+		
+	public:
+		inline constexpr
+		Rect(float x, float y, float width, float height)
+		:x{x}, y{y}, width{width}, height{height}{}
+
+		inline constexpr
+		auto getXMin() const -> float {
+			[[likely]]
+			if(width > 0) return x;
+			return x+width;
+		}
+
+		inline constexpr
+		auto getXMax() const -> float {
+			[[likely]]
+			if(width > 0) return x+width;
+			return x;
+		}
+
+		inline constexpr
+		auto getYMax() const -> float {
+			[[likely]]
+			if(height > 0) return y+height;
+			return y;
+		}
+
+		inline constexpr
+		auto getYMin() const -> float {
+			[[likely]]
+			if(height > 0) return y;
+			return y+height;
+		}
+	};
+
+	class Line2d {
+		Vector2 a, b;
+	public:
+		inline constexpr
+		Line2d(const Vector2& from, const Vector2& to)
+		:a{from}, b{to} {}
+
+		inline constexpr
+		Line2d(Vector2&& from, Vector2&& to)
+		:a{from}, b{to} {}
+
+		inline constexpr
+		auto getFrom() const -> const Vector2& {
+			return a;
+		}
+
+		inline constexpr
+		auto getTo() const -> const Vector2 {
+			return b;
+		}
+
+		inline constexpr
+		auto intersect_fraction(const Rect& rectangle) const -> float {
+			auto fract{ Vector2(
+				((rectangle.getYMin() - a.getY())/(b.getY() - a.getY())),
+				((rectangle.getXMin() - a.getX())/(b.getX() - a.getX()))
+			)};
+			
+			return fract.getX() > fract.getY() ? fract.getX() : fract.getY();
+		}
+
+		inline constexpr
+		auto asVec2() const -> Vector2 {
+			return (b-a);
+		}
+
+		inline constexpr
+		auto intersect_point(const Rect& rectangle) const -> Vector2 {
+			return a+intersect_fraction(rectangle)*asVec2();
+		}
+		
+		inline
+		auto disctance_to(const Vector2& point) const -> float {
+			return point.subtract(a.add(a.to(point).project(asVec2()))).length();	
+		}
+	};
+	
     inline constexpr
     auto lerp(const float& goal, const float& current, const float& step)-> float {
     auto dif{ goal - current };
