@@ -1156,6 +1156,111 @@ namespace math{
 		inline constexpr
 		Matrix_2x2(float x1, float x2, float x3, float x4):
 		i(x1, x2), j(x3, x4){}
+
+		inline constexpr
+		auto isIndependent(float* opt_out_ratio=nullptr) const -> bool {
+			auto tr1{ this->i.getX()/this->j.getX() };
+			auto tr2{ this->i.getY()/this->j.getY() };
+
+			if(fabs(tr1-tr2) < Vector2::tollerance){
+				if(opt_out_ratio != nullptr) *opt_out_ratio = tr1;
+				return true;
+			}
+			return false;
+		}
+
+		inline constexpr
+		auto transposed() const -> Matrix_2x2 {
+			return Matrix_2x2{
+				{ this->i.getX(), this->j.getX() },
+				{ this->i.getY(), this->j.getY() }
+			};
+		}
+
+		inline constexpr
+		auto _transpose() -> Matrix_2x2 {
+			auto tmp{ this->i.getY() };
+			this->i.setY(this->j.getX());
+			this->j.setX(tmp);
+			return *this;
+		}
+
+		inline constexpr
+		auto adjugated() const -> Matrix_2x2 {
+			return Matrix_2x2{
+				{   this->j.getY(), -(this->i.getX()) },
+				{ -(this->j.getX()),  this->i.getY()  }
+			};
+		}
+
+		inline constexpr
+		auto _adjugate() -> Matrix_2x2& {
+			auto tmp{ this->i.getX() };
+			this->i.setX(this->j.getY());
+			this->i.setY(-this->i.getY());
+			this->j.setX(tmp);
+			this->j.setY(-this->j.getY());
+
+			return *this;
+		}
+
+		inline constexpr
+		auto determinant() const -> float {
+			return (i.getX()*j.getY()) - (i.getY()*j.getX());
+		}
+		
+		inline constexpr
+		auto scaled(const float& scalar) const -> Matrix_2x2 {
+			return Matrix_2x2 {
+				this->i * scalar,
+				this->j * scalar
+			};
+		}
+
+		inline constexpr
+		auto _scale(const float& scalar) -> Matrix_2x2& {
+			this->i._scale(scalar);
+			this->j._scale(scalar);
+
+			return *this;
+		}
+
+		inline constexpr
+		auto inverted() const -> Matrix_2x2 {
+			return adjugated()._scale(1.f/determinant());
+		}
+
+		inline constexpr
+		auto _invert() -> Matrix_2x2& {
+			auto tmp{ determinant() };
+			return _adjugate()._scale(tmp);
+		}
+
+		inline constexpr
+		auto applyTo(const Vector2& v) const -> Vector2 {
+			return Vector2(
+				i.getX()*v.getX() + j.getX()*v.getY(),
+				i.getY()*v.getX() + j.getY()*v.getY()
+			);
+		}
+
+		inline constexpr
+		auto applyTo(Vector2& v) const -> Vector2& {
+			return v.set(
+				i.getX()*v.getX() + j.getX()*v.getY(),
+				i.getY()*v.getX() + j.getY()*v.getY()
+			);
+		}
+
+		inline constexpr
+		auto applyTo(const Matrix_2x2& m) const -> Matrix_2x2 {
+			return Matrix_2x2(
+				{ i.getX()*m.i.getX() + j.getX()*m.i.getY(),
+				  i.getY()*m.i.getX() + j.getY()*m.i.getY() },
+				{ i.getX()*m.j.getX() + j.getX()*m.j.getY(),
+				  i.getY()*m.j.getX() + j.getY()*m.j.getY() }
+			);
+		}
 	};
 
     inline constexpr
@@ -1189,8 +1294,8 @@ namespace math{
         }
         if(exp == 0) return 0;
 
-        [[likely]]
         auto base{b};
+        [[likely]]
         for(int i{1}; i<exp; ++i){
             base *= b;
         }
