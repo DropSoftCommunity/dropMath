@@ -1282,9 +1282,289 @@ namespace math{
 			<< " ]";
    		return out;
    	}
+
+	class Matrix_3x3 {
+		Vector3 i, j, k;
+	public:
+		inline static constexpr
+		auto identity() -> Matrix_3x3 {
+			return Matrix_3x3({1.f, 0.f, 0.f}, 
+							  {0.f, 1.f, 0.f},
+							  {0.f, 0.f, 1.f});
+		}
+
+		inline constexpr
+		Matrix_3x3(const Vector3& i, const Vector3& j, const Vector3& k)
+		:i{i}, j{j}, k{k}{}
+
+		inline constexpr
+		Matrix_3x3(Vector3&& i, Vector3&& j, Vector3&& k)
+		:i{i}, j{j}, k{k}{}
+
+		inline constexpr
+		Matrix_3x3(float x1, float x2, float x3, 
+				   float x4, float x5, float x6,
+				   float x7, float x8, float x9):
+		i(x1, x2, x3), j(x4, x5, x6), k{x7, x8, x9}{}
+
+		inline constexpr
+		auto isIndependent() const -> bool {
+			return static_cast<bool>(determinant());
+		}
+
+		inline constexpr
+		auto transposed() const -> Matrix_3x3 {
+			return Matrix_3x3{
+				{ i.getX(), j.getX(), k.getX() },
+				{ i.getY(), j.getY(), k.getY() },
+				{ i.getZ(), j.getZ(), k.getZ() }
+			};
+		}
+
+		inline constexpr
+		auto _transpose() -> Matrix_3x3 {
+			const auto tmp_iy{ i.getY() };
+			const auto tmp_iz{ i.getZ() };
+			const auto tmp_jz{ j.getZ() };
+
+			this->i.set(i.getX(), 	j.getX(), k.getX());
+			this->j.set(tmp_iy, 	j.getY(), k.getY());
+			this->k.set(tmp_iz, 	tmp_jz,	  k.getZ());
+
+			return *this;
+		}
+
+		inline constexpr
+		auto adjugated() const -> Matrix_3x3 {
+			auto adj{ Matrix_3x3{
+			{
+				+Matrix_2x2({j.getY(), j.getZ()},{k.getY(), k.getZ()}).determinant(),
+				-Matrix_2x2({j.getX(), j.getZ()},{k.getX(), k.getZ()}).determinant(),
+				+Matrix_2x2({j.getX(), j.getY()},{k.getX(), k.getY()}).determinant()
+			},
+			{
+				-Matrix_2x2({i.getY(), i.getZ()},{k.getY(), k.getZ()}).determinant(),
+				+Matrix_2x2({i.getX(), i.getZ()},{k.getX(), k.getZ()}).determinant(),
+				-Matrix_2x2({i.getX(), i.getY()},{k.getX(), k.getY()}).determinant()
+			},
+			{
+				+Matrix_2x2({i.getY(), i.getZ()},{j.getY(), j.getZ()}).determinant(),
+				-Matrix_2x2({i.getX(), i.getZ()},{j.getX(), j.getZ()}).determinant(),
+				+Matrix_2x2({i.getX(), i.getY()},{j.getX(), j.getY()}).determinant()
+			}
+		 	}};
+			return adj._transpose();
+		}
+
+		inline constexpr
+		auto _adjugate() -> Matrix_3x3& {
+			*this = adjugated();
+			return *this;
+		}
+
+		inline constexpr
+		auto determinant() const -> float {
+			return
+			 i.getX()*j.getY()*k.getZ()
+			+j.getX()*k.getY()*i.getZ()
+			+k.getX()*i.getY()*j.getZ()
+			-i.getZ()*j.getY()*k.getX()
+			-j.getZ()*k.getY()*i.getX()
+			-k.getZ()*i.getY()*j.getX();
+		}
+		
+		inline constexpr
+		auto scaled(const float& scalar) const -> Matrix_3x3 {
+			return Matrix_3x3 {
+				this->i * scalar,
+				this->j * scalar,
+				this->k * scalar
+			};
+		}
+
+		inline constexpr
+		auto _scale(const float& scalar) -> Matrix_3x3& {
+			this->i._scale(scalar);
+			this->j._scale(scalar);
+			this->k._scale(scalar);
+
+			return *this;
+		}
+
+		inline constexpr
+		auto inverted() const -> Matrix_3x3 {
+			return adjugated()._scale(1.f/determinant());
+		}
+
+		inline constexpr
+		auto _invert() -> Matrix_3x3& {
+			auto tmp{ determinant() };
+			return _adjugate()._scale(tmp);
+		}
+
+		inline constexpr
+		auto applyTo(const Vector3& v) const -> Vector3 {
+			return Vector3(
+				i.getX()*v.getX()+j.getX()*v.getY()+k.getX()*v.getZ(),
+				i.getY()*v.getX()+j.getY()*v.getY()+k.getY()*v.getZ(),
+				i.getZ()*v.getX()+j.getZ()*v.getY()+k.getZ()*v.getZ()
+			);
+		}
+
+		inline constexpr
+		auto applyTo(Vector3& v) const -> Vector3& {
+			return v.set(
+				i.getX()*v.getX()+j.getX()*v.getY()+k.getX()*v.getZ(),
+				i.getY()*v.getX()+j.getY()*v.getY()+k.getY()*v.getZ(),
+				i.getZ()*v.getX()+j.getZ()*v.getY()+k.getZ()*v.getZ()
+			);
+		}
+
+		inline constexpr
+		auto applyTo(const Matrix_3x3& m) const -> Matrix_3x3 {
+			return Matrix_3x3(
+			{
+				i.getX()*m.i.getX()+j.getX()*m.i.getY()+k.getX()*m.i.getZ(),
+				i.getY()*m.i.getX()+j.getY()*m.i.getY()+k.getY()*m.i.getZ(),
+				i.getZ()*m.i.getX()+j.getZ()*m.i.getY()+k.getZ()*m.i.getZ()
+			},
+			{
+				i.getX()*m.j.getX()+j.getX()*m.j.getY()+k.getX()*m.j.getZ(),
+				i.getY()*m.j.getX()+j.getY()*m.j.getY()+k.getY()*m.j.getZ(),
+				i.getZ()*m.j.getX()+j.getZ()*m.j.getY()+k.getZ()*m.j.getZ()
+			},
+			{
+				i.getX()*m.k.getX()+j.getX()*m.k.getY()+k.getX()*m.k.getZ(),
+				i.getY()*m.k.getX()+j.getY()*m.k.getY()+k.getY()*m.k.getZ(),
+				i.getZ()*m.k.getX()+j.getZ()*m.k.getY()+k.getZ()*m.k.getZ()
+			}
+			);
+		}
+
+		inline constexpr
+		auto applyTo(Matrix_3x3& m) const -> Matrix_3x3& {
+			m.i.set(
+				i.getX()*m.i.getX()+j.getX()*m.i.getY()+k.getX()*m.i.getZ(),
+				i.getY()*m.i.getX()+j.getY()*m.i.getY()+k.getY()*m.i.getZ(),
+				i.getZ()*m.i.getX()+j.getZ()*m.i.getY()+k.getZ()*m.i.getZ()
+			);
+			m.j.set(
+				i.getX()*m.j.getX()+j.getX()*m.j.getY()+k.getX()*m.j.getZ(),
+				i.getY()*m.j.getX()+j.getY()*m.j.getY()+k.getY()*m.j.getZ(),
+				i.getZ()*m.j.getX()+j.getZ()*m.j.getY()+k.getZ()*m.j.getZ()
+			);
+			m.k.set(
+				i.getX()*m.k.getX()+j.getX()*m.k.getY()+k.getX()*m.k.getZ(),
+				i.getY()*m.k.getX()+j.getY()*m.k.getY()+k.getY()*m.k.getZ(),
+				i.getZ()*m.k.getX()+j.getZ()*m.k.getY()+k.getZ()*m.k.getZ()
+		    );
+			return m;
+		}
+
+		inline constexpr
+		auto _selfApply(Matrix_3x3& m) -> Matrix_3x3& {
+			this->i.set(
+				i.getX()*m.i.getX()+j.getX()*m.i.getY()+k.getX()*m.i.getZ(),
+				i.getY()*m.i.getX()+j.getY()*m.i.getY()+k.getY()*m.i.getZ(),
+				i.getZ()*m.i.getX()+j.getZ()*m.i.getY()+k.getZ()*m.i.getZ()
+			);
+			this->j.set(
+				i.getX()*m.j.getX()+j.getX()*m.j.getY()+k.getX()*m.j.getZ(),
+				i.getY()*m.j.getX()+j.getY()*m.j.getY()+k.getY()*m.j.getZ(),
+				i.getZ()*m.j.getX()+j.getZ()*m.j.getY()+k.getZ()*m.j.getZ()
+			);
+			this->k.set(
+				i.getX()*m.k.getX()+j.getX()*m.k.getY()+k.getX()*m.k.getZ(),
+				i.getY()*m.k.getX()+j.getY()*m.k.getY()+k.getY()*m.k.getZ(),
+				i.getZ()*m.k.getX()+j.getZ()*m.k.getY()+k.getZ()*m.k.getZ()
+		    );
+			return *this;
+		}
+
+		inline constexpr
+		auto solveFor(const Vector3& results) const -> Vector3 {
+			auto det{ determinant() };
+			
+			auto m1{ Matrix_3x3(results, j, k) };
+			auto m2{ Matrix_3x3(i, results, k) };
+			auto m3{ Matrix_3x3(i, j, results) };
+
+			auto d1{ m1.determinant() };
+			auto d2{ m2.determinant() };
+			auto d3{ m3.determinant() };
+
+			return Vector3(d1/det, d2/det, d3/det);
+		}
+
+		inline constexpr
+		auto operator*(const float& factor) const -> Matrix_3x3{
+			return this->scaled(factor);
+		}
+
+		inline constexpr
+		auto operator/(const float& divisor) const -> Matrix_3x3{
+			return this->scaled(1.f/divisor);
+		}
+
+		inline constexpr
+		auto operator=(const Matrix_3x3& other) -> Matrix_3x3&{
+			this->i.set(other.i);
+			this->j.set(other.j);
+			this->k.set(other.k);
+			
+			return *this;
+		}
+
+		inline constexpr
+		auto operator/=(const float& divisor) -> Matrix_3x3&{
+			return this->_scale(1.f/divisor);
+		}
+
+		inline constexpr
+		auto operator*=(const float& factor) -> Matrix_3x3&{
+			return this->_scale(factor);
+		}
+
+		inline constexpr
+		auto operator==(const Matrix_3x3& other) const -> bool {
+			return (i == other.i)
+				&& (j == other.j)
+				&& (k == other.k);
+		}
+
+		inline constexpr
+		auto operator!=(const Matrix_3x3& other) const -> bool {
+			return !(*this==other);
+		}
+
+		friend inline
+		auto operator<<(std::ostream &out, const Matrix_3x3& m)
+		-> std::ostream&;
+	};
+
+	inline constexpr
+	auto operator*(float scalar, const Matrix_3x3& m) -> Matrix_3x3 {
+		return m.scaled(scalar);
+	}
+
+	inline 
+	auto operator<<(std::ostream &out, const Matrix_3x3& m) 
+	-> std::ostream& {
+       	out << "[ " 	<< m.i.getX() 
+			<< " | " 	<< m.j.getX() 
+			<< " | " 	<< m.k.getX() 
+			<< " ]\n[ " << m.i.getY() 
+			<< " | " 	<< m.j.getY() 
+			<< " | " 	<< m.k.getY() 
+			<< " ]\n[ " << m.i.getZ() 
+			<< " | " 	<< m.j.getZ() 
+			<< " | " 	<< m.k.getZ() 
+			<< " ]";
+   		return out;
+   	}
 	
 	inline constexpr
-	auto diffeentiate(const float& func) -> float {
+	auto differentiate(const float& func) -> float {
 		return 0;
 	}
 
