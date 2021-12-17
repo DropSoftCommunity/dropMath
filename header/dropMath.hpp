@@ -7,7 +7,7 @@
 namespace drop{
 namespace math{
 
-	static inline constexpr
+	static constexpr
 	auto floatTollerance{ 0.0001f };
 
     class Vector2{
@@ -1612,24 +1612,96 @@ namespace math{
 			return *this;
 		}
 
-		//TODO: adjust this for the 4x4 matrix
 		inline constexpr
 		auto adjugated() const -> Matrix_4x4 {
 			auto adj{ Matrix_4x4{
 			{
-				+Matrix_2x2({j.getY(), j.getZ()},{k.getY(), k.getZ()}).determinant(),
-				-Matrix_2x2({j.getX(), j.getZ()},{k.getX(), k.getZ()}).determinant(),
-				+Matrix_2x2({j.getX(), j.getY()},{k.getX(), k.getY()}).determinant()
+				+Matrix_3x3(
+						{j.getY(), j.getZ(), j.getW()},
+						{k.getY(), k.getZ(), k.getW()},
+						{l.getY(), l.getZ(), l.getW()}
+				 ).determinant(),
+				-Matrix_3x3(
+						{j.getX(), j.getZ(), j.getW()},
+						{k.getX(), k.getZ(), k.getW()},
+						{l.getX(), l.getZ(), l.getW()}
+				 ).determinant(),
+				+Matrix_3x3(
+						{j.getX(), j.getY(), j.getW()},
+						{k.getX(), k.getY(), k.getW()},
+						{l.getX(), l.getY(), l.getW()}
+				 ).determinant(),
+				-Matrix_3x3(
+						{j.getX(), j.getY(), j.getZ()},
+						{k.getX(), k.getY(), k.getZ()},
+						{l.getX(), l.getY(), l.getZ()}
+				 ).determinant()
 			},
 			{
-				-Matrix_2x2({i.getY(), i.getZ()},{k.getY(), k.getZ()}).determinant(),
-				+Matrix_2x2({i.getX(), i.getZ()},{k.getX(), k.getZ()}).determinant(),
-				-Matrix_2x2({i.getX(), i.getY()},{k.getX(), k.getY()}).determinant()
+				-Matrix_3x3(
+						{i.getY(), i.getZ(), i.getW()},
+						{k.getY(), k.getZ(), k.getW()},
+						{l.getY(), l.getZ(), l.getW()}
+				 ).determinant(),
+				+Matrix_3x3(
+						{i.getX(), i.getZ(), i.getW()},
+						{k.getX(), k.getZ(), k.getW()},
+						{l.getX(), l.getZ(), l.getW()}
+				 ).determinant(),
+				-Matrix_3x3(
+						{i.getX(), i.getY(), i.getW()},
+						{k.getX(), k.getY(), k.getW()},
+						{l.getX(), l.getY(); l.getW()}
+				 ).determinant(),
+				+Matrix_3x3(
+						{i.getX(), i.getY(), i.getZ()},
+						{k.getX(), k.getY(), k.getZ()},
+						{l.getX(), l.getY(), l.getZ()}
+				 ).determinant()
 			},
 			{
-				+Matrix_2x2({i.getY(), i.getZ()},{j.getY(), j.getZ()}).determinant(),
-				-Matrix_2x2({i.getX(), i.getZ()},{j.getX(), j.getZ()}).determinant(),
-				+Matrix_2x2({i.getX(), i.getY()},{j.getX(), j.getY()}).determinant()
+				+Matrix_3x3(
+						{i.getY(), i.getZ(), i.getW()},
+						{j.getY(), j.getZ(), j.getW()},
+						{l.getY(), l.getZ(), l.getW()}
+				 ).determinant(),
+				-Matrix_3x3(
+						{i.getX(), i.getZ(), i.getW()},
+						{j.getX(), j.getZ(), j.getW()},
+						{l.getX(), l.getZ(), l.getW()}
+				 ).determinant(),
+				+Matrix_3x3(
+						{i.getX(), i.getY(), i.getW()},
+						{j.getX(), j.getY(), j.getW()},
+						{l.getX(), l.getY(), l.getW()}
+				 ).determinant(),
+				-Matrix_3x3(
+						{i.getX(), i.getY(), i.getZ()},
+						{j.getX(), j.getY(), j.getZ()},
+						{l.getX(), l.getY(), l.getZ()}
+				 ).determinant()
+			},
+			{
+				+Matrix_3x3(
+						{i.getY(), i.getZ(), i.getW()},
+						{j.getY(), j.getZ(), j.getW()},
+						{k.getY(), k.getZ(), k.getW()}
+				 ).determinant(),
+				-Matrix_3x3(
+						{i.getX(), i.getZ(), i.getW()},
+						{j.getX(), j.getZ(), j.getW()},
+						{k.getX(), k.getZ(), k.getW()}
+				 ).determinant(),
+				+Matrix_3x3(
+						{i.getX(), i.getY(), i.getW()},
+						{j.getX(), j.getY(), j.getW()},
+						{k.getX(), k.getY(), k.getW()}
+				 ).determinant(),
+				-Matrix_3x3(
+						{i.getX(), i.getY(), i.getZ()},
+						{j.getX(), j.getY(), j.getZ()},
+						{k.getX(), k.getY(), k.getZ()}
+				 ).determinant()
 			}
 		 	}};
 			return adj._transpose();
@@ -1641,10 +1713,29 @@ namespace math{
 			return *this;
 		}
 
-		//TODO: implement me!
 		inline constexpr
 		auto determinant() const -> float {
-			return;
+			return
+			+i.getX()*Matrix_3x3(
+					{j.getY(), j.getZ(), j.getW()},
+					{k.getY(), k.getZ(), k.getW()},
+					{l.getY(), l.getZ(), l.getW()}
+			 ).determinant()
+			-i.getY()*Matrix_3x3(
+					{j.getX(), j.getZ(), j.getW()},
+					{k.getX(), k.getZ(), k.getW()},
+					{l.getX(), l.getZ(), l.getW()}
+			 ).determinant()
+			+i.getZ()*Matrix_3x3(
+					{j.getX(), j.getY(), j.getW()},
+					{k.getX(), k.getY(), k.getW()},
+					{l.getX(), l.getY(), l.getW()}
+			 ).determinant()
+			-i.getW()*Matrix_3x3(
+					{j.getX(), j.getY(), j.getZ()},
+					{k.getX(), k.getY(), k.getZ()},
+					{l.getX(), l.getY(), l.getZ()}
+			 ).determinant()
 		}
 		
 		inline constexpr
@@ -1678,35 +1769,111 @@ namespace math{
 			return _adjugate()._scale(1.f/tmp);
 		}
 
-		//TODO: implement
 		inline constexpr
 		auto applyTo(const Vector4& v) const -> Vector4 {
 			return Vector4(
+				i.getX()*v.getX()+j.getX()*v.getY()+k.getX()*v.getZ()+l.getX()*v.getW(),		
+				i.getY()*v.getX()+j.getY()*v.getY()+k.getY()*v.getZ()+l.getY()*v.getW(),		
+				i.getZ()*v.getX()+j.getZ()*v.getY()+k.getZ()*v.getZ()+l.getZ()*v.getW(),		
+				i.getw()*v.getX()+j.getW()*v.getY()+k.getW()*v.getZ()+l.getW()*v.getW()		
 			);
 		}
 
 		inline constexpr
 		auto applyTo(Vector4& v) const -> Vector4& {
 			return v.set(
+				i.getX()*v.getX()+j.getX()*v.getY()+k.getX()*v.getZ()+l.getX()*v.getW(),		
+				i.getY()*v.getX()+j.getY()*v.getY()+k.getY()*v.getZ()+l.getY()*v.getW(),		
+				i.getZ()*v.getX()+j.getZ()*v.getY()+k.getZ()*v.getZ()+l.getZ()*v.getW(),		
+				i.getw()*v.getX()+j.getW()*v.getY()+k.getW()*v.getZ()+l.getW()*v.getW()		
 			);
 		}
 
-		//TODO: implement
 		inline constexpr
 		auto applyTo(const Matrix_4x4& m) const -> Matrix_4x4 {
 			return Matrix_4x4(
+			{
+				i.getX()*m.i.getX()+j.getX()*m.i.getY()+k.getX()*m.i.getZ()+l.getX()*m.i.getW(),		
+				i.getY()*m.i.getX()+j.getY()*m.i.getY()+k.getY()*m.i.getZ()+l.getY()*m.i.getW(),		
+				i.getZ()*m.i.getX()+j.getZ()*m.i.getY()+k.getZ()*m.i.getZ()+l.getZ()*m.i.getW(),		
+				i.getw()*m.i.getX()+j.getW()*m.i.getY()+k.getW()*m.i.getZ()+l.getW()*m.i.getW()		
+			},
+			{
+				i.getX()*m.j.getX()+j.getX()*m.j.getY()+k.getX()*m.j.getZ()+l.getX()*m.j.getW(),		
+				i.getY()*m.j.getX()+j.getY()*m.j.getY()+k.getY()*m.j.getZ()+l.getY()*m.j.getW(),		
+				i.getZ()*m.j.getX()+j.getZ()*m.j.getY()+k.getZ()*m.j.getZ()+l.getZ()*m.j.getW(),		
+				i.getw()*m.j.getX()+j.getW()*m.j.getY()+k.getW()*m.j.getZ()+l.getW()*m.j.getW()		
+			},
+			{
+				i.getX()*m.k.getX()+j.getX()*m.k.getY()+k.getX()*m.k.getZ()+l.getX()*m.k.getW(),		
+				i.getY()*m.k.getX()+j.getY()*m.k.getY()+k.getY()*m.k.getZ()+l.getY()*m.k.getW(),		
+				i.getZ()*m.k.getX()+j.getZ()*m.k.getY()+k.getZ()*m.k.getZ()+l.getZ()*m.k.getW(),		
+				i.getw()*m.k.getX()+j.getW()*m.k.getY()+k.getW()*m.k.getZ()+l.getW()*m.k.getW()		
+			},
+			{
+				i.getX()*m.l.getX()+j.getX()*m.l.getY()+k.getX()*m.l.getZ()+l.getX()*m.l.getW(),		
+				i.getY()*m.l.getX()+j.getY()*m.l.getY()+k.getY()*m.l.getZ()+l.getY()*m.l.getW(),		
+				i.getZ()*m.l.getX()+j.getZ()*m.l.getY()+k.getZ()*m.l.getZ()+l.getZ()*m.l.getW(),		
+				i.getw()*m.l.getX()+j.getW()*m.l.getY()+k.getW()*m.l.getZ()+l.getW()*m.l.getW()		
+			}
 			);
 		}
 
-		//TODO: implement
 		inline constexpr
 		auto applyTo(Matrix_4x4& m) const -> Matrix_4x4& {
+			m.i.set(
+				i.getX()*m.i.getX()+j.getX()*m.i.getY()+k.getX()*m.i.getZ()+l.getX()*m.i.getW(),		
+				i.getY()*m.i.getX()+j.getY()*m.i.getY()+k.getY()*m.i.getZ()+l.getY()*m.i.getW(),		
+				i.getZ()*m.i.getX()+j.getZ()*m.i.getY()+k.getZ()*m.i.getZ()+l.getZ()*m.i.getW(),		
+				i.getw()*m.i.getX()+j.getW()*m.i.getY()+k.getW()*m.i.getZ()+l.getW()*m.i.getW()		
+			);
+			m.j.set(
+				i.getX()*m.j.getX()+j.getX()*m.j.getY()+k.getX()*m.j.getZ()+l.getX()*m.j.getW(),		
+				i.getY()*m.j.getX()+j.getY()*m.j.getY()+k.getY()*m.j.getZ()+l.getY()*m.j.getW(),		
+				i.getZ()*m.j.getX()+j.getZ()*m.j.getY()+k.getZ()*m.j.getZ()+l.getZ()*m.j.getW(),		
+				i.getw()*m.j.getX()+j.getW()*m.j.getY()+k.getW()*m.j.getZ()+l.getW()*m.j.getW()		
+			);	
+			m.k.set(	
+				i.getX()*m.k.getX()+j.getX()*m.k.getY()+k.getX()*m.k.getZ()+l.getX()*m.k.getW(),		
+				i.getY()*m.k.getX()+j.getY()*m.k.getY()+k.getY()*m.k.getZ()+l.getY()*m.k.getW(),		
+				i.getZ()*m.k.getX()+j.getZ()*m.k.getY()+k.getZ()*m.k.getZ()+l.getZ()*m.k.getW(),		
+				i.getw()*m.k.getX()+j.getW()*m.k.getY()+k.getW()*m.k.getZ()+l.getW()*m.k.getW()		
+			);			
+			m.l.set(
+				i.getX()*m.l.getX()+j.getX()*m.l.getY()+k.getX()*m.l.getZ()+l.getX()*m.l.getW(),		
+				i.getY()*m.l.getX()+j.getY()*m.l.getY()+k.getY()*m.l.getZ()+l.getY()*m.l.getW(),		
+				i.getZ()*m.l.getX()+j.getZ()*m.l.getY()+k.getZ()*m.l.getZ()+l.getZ()*m.l.getW(),		
+				i.getw()*m.l.getX()+j.getW()*m.l.getY()+k.getW()*m.l.getZ()+l.getW()*m.l.getW()		
+			);
 			return m;
 		}
 
-		//TODO: implement
 		inline constexpr
 		auto _selfApply(Matrix_4x4& m) -> Matrix_4x4& {
+			i.set(
+				i.getX()*m.i.getX()+j.getX()*m.i.getY()+k.getX()*m.i.getZ()+l.getX()*m.i.getW(),		
+				i.getY()*m.i.getX()+j.getY()*m.i.getY()+k.getY()*m.i.getZ()+l.getY()*m.i.getW(),		
+				i.getZ()*m.i.getX()+j.getZ()*m.i.getY()+k.getZ()*m.i.getZ()+l.getZ()*m.i.getW(),		
+				i.getw()*m.i.getX()+j.getW()*m.i.getY()+k.getW()*m.i.getZ()+l.getW()*m.i.getW()		
+			);
+			j.set(
+				i.getX()*m.j.getX()+j.getX()*m.j.getY()+k.getX()*m.j.getZ()+l.getX()*m.j.getW(),		
+				i.getY()*m.j.getX()+j.getY()*m.j.getY()+k.getY()*m.j.getZ()+l.getY()*m.j.getW(),		
+				i.getZ()*m.j.getX()+j.getZ()*m.j.getY()+k.getZ()*m.j.getZ()+l.getZ()*m.j.getW(),		
+				i.getw()*m.j.getX()+j.getW()*m.j.getY()+k.getW()*m.j.getZ()+l.getW()*m.j.getW()		
+			);	
+			k.set(	
+				i.getX()*m.k.getX()+j.getX()*m.k.getY()+k.getX()*m.k.getZ()+l.getX()*m.k.getW(),		
+				i.getY()*m.k.getX()+j.getY()*m.k.getY()+k.getY()*m.k.getZ()+l.getY()*m.k.getW(),		
+				i.getZ()*m.k.getX()+j.getZ()*m.k.getY()+k.getZ()*m.k.getZ()+l.getZ()*m.k.getW(),		
+				i.getw()*m.k.getX()+j.getW()*m.k.getY()+k.getW()*m.k.getZ()+l.getW()*m.k.getW()		
+			);			
+			l.set(
+				i.getX()*m.l.getX()+j.getX()*m.l.getY()+k.getX()*m.l.getZ()+l.getX()*m.l.getW(),		
+				i.getY()*m.l.getX()+j.getY()*m.l.getY()+k.getY()*m.l.getZ()+l.getY()*m.l.getW(),		
+				i.getZ()*m.l.getX()+j.getZ()*m.l.getY()+k.getZ()*m.l.getZ()+l.getZ()*m.l.getW(),		
+				i.getw()*m.l.getX()+j.getW()*m.l.getY()+k.getW()*m.l.getZ()+l.getW()*m.l.getW()		
+			);
 			return *this;
 		}
 
