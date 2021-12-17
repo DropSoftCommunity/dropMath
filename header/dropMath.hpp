@@ -1152,7 +1152,7 @@ namespace math{
 		inline constexpr
 		auto _invert() -> Matrix_2x2& {
 			auto tmp{ determinant() };
-			return _adjugate()._scale(tmp);
+			return _adjugate()._scale(1.f/tmp);
 		}
 
 		inline constexpr
@@ -1399,7 +1399,7 @@ namespace math{
 		inline constexpr
 		auto _invert() -> Matrix_3x3& {
 			auto tmp{ determinant() };
-			return _adjugate()._scale(tmp);
+			return _adjugate()._scale(1.f/tmp);
 		}
 
 		inline constexpr
@@ -1562,6 +1562,246 @@ namespace math{
 			<< " ]";
    		return out;
    	}
+
+	class Matrix_4x4 {
+		Vector4 i, j, k, l;
+	public:
+		inline static constexpr
+		auto identity() -> Matrix_4x4 {
+			return Matrix_4x4({1.f, 0.f, 0.f, 0.f}, 
+							  {0.f, 1.f, 0.f, 0.f},
+							  {0.f, 0.f, 1.f, 0.f},
+							  {0.f, 0.f, 0.f, 1.f});
+		}
+
+		inline constexpr
+		Matrix_4x4(const Vector4& i, const Vector4& j, 
+				   const Vector4& k, const Vector4& l)
+		:i{i}, j{j}, k{k}, l{l}{}
+
+		inline constexpr
+		Matrix_4x4(Vector4&& i, Vector4&& j, Vector4&& k, Vector&& l)
+		:i{i}, j{j}, k{k}, l{l}{}
+
+		inline constexpr
+		Matrix_4x4(float x1, float x2, float x3, float x4,
+				   float x5, float x6, float x7, float x8,
+				   float x9, float xa, float xb, float xc,
+				   float xd, float xe, float xf, float xg):
+		i(x1, x2, x3, x4), j(x5, x6, x7, x8),
+		k{x9, xa, xb, xc}, l(xd, xe, xf, xg){}
+
+		inline constexpr
+		auto isIndependent() const -> bool {
+			return static_cast<bool>(determinant());
+		}
+
+		inline constexpr
+		auto transposed() const -> Matrix_4x4 {
+			return Matrix_4x4{
+				{ i.getX(), j.getX(), k.getX(), l.getX() },
+				{ i.getY(), j.getY(), k.getY(), l.getY() },
+				{ i.getZ(), j.getZ(), k.getZ(), l.getZ() },
+				{ i.getW(), j.getW(), k.getW(), l.getW() }
+			};
+		}
+
+		inline constexpr
+		auto _transpose() -> Matrix_4x4 {
+			*this = transposed();
+			return *this;
+		}
+
+		//TODO: adjust this for the 4x4 matrix
+		inline constexpr
+		auto adjugated() const -> Matrix_4x4 {
+			auto adj{ Matrix_4x4{
+			{
+				+Matrix_2x2({j.getY(), j.getZ()},{k.getY(), k.getZ()}).determinant(),
+				-Matrix_2x2({j.getX(), j.getZ()},{k.getX(), k.getZ()}).determinant(),
+				+Matrix_2x2({j.getX(), j.getY()},{k.getX(), k.getY()}).determinant()
+			},
+			{
+				-Matrix_2x2({i.getY(), i.getZ()},{k.getY(), k.getZ()}).determinant(),
+				+Matrix_2x2({i.getX(), i.getZ()},{k.getX(), k.getZ()}).determinant(),
+				-Matrix_2x2({i.getX(), i.getY()},{k.getX(), k.getY()}).determinant()
+			},
+			{
+				+Matrix_2x2({i.getY(), i.getZ()},{j.getY(), j.getZ()}).determinant(),
+				-Matrix_2x2({i.getX(), i.getZ()},{j.getX(), j.getZ()}).determinant(),
+				+Matrix_2x2({i.getX(), i.getY()},{j.getX(), j.getY()}).determinant()
+			}
+		 	}};
+			return adj._transpose();
+		}
+
+		inline constexpr
+		auto _adjugate() -> Matrix_4x4& {
+			*this = adjugated();
+			return *this;
+		}
+
+		//TODO: implement me!
+		inline constexpr
+		auto determinant() const -> float {
+			return;
+		}
+		
+		inline constexpr
+		auto scaled(const float& scalar) const -> Matrix_4x4 {
+			return Matrix_4x4 {
+				this->i * scalar,
+				this->j * scalar,
+				this->k * scalar,
+				this->l * scalar
+			};
+		}
+
+		inline constexpr
+		auto _scale(const float& scalar) -> Matrix_4x4& {
+			this->i._scale(scalar);
+			this->j._scale(scalar);
+			this->k._scale(scalar);
+			this->l._sclae(scalar);
+
+			return *this;
+		}
+
+		inline constexpr
+		auto inverted() const -> Matrix_4x4 {
+			return adjugated()._scale(1.f/determinant());
+		}
+
+		inline constexpr
+		auto _invert() -> Matrix_4x4& {
+			auto tmp{ determinant() };
+			return _adjugate()._scale(1.f/tmp);
+		}
+
+		//TODO: implement
+		inline constexpr
+		auto applyTo(const Vector4& v) const -> Vector4 {
+			return Vector4(
+			);
+		}
+
+		inline constexpr
+		auto applyTo(Vector4& v) const -> Vector4& {
+			return v.set(
+			);
+		}
+
+		//TODO: implement
+		inline constexpr
+		auto applyTo(const Matrix_4x4& m) const -> Matrix_4x4 {
+			return Matrix_4x4(
+			);
+		}
+
+		//TODO: implement
+		inline constexpr
+		auto applyTo(Matrix_4x4& m) const -> Matrix_4x4& {
+			return m;
+		}
+
+		//TODO: implement
+		inline constexpr
+		auto _selfApply(Matrix_4x4& m) -> Matrix_4x4& {
+			return *this;
+		}
+
+		inline constexpr
+		auto solveFor(const Vector4& results) const -> Vector4 {
+			auto det{ determinant() };
+			
+			auto m1{ Matrix_4x4(results, j, k, l) };
+			auto m2{ Matrix_4x4(i, results, k, l) };
+			auto m3{ Matrix_4x4(i, j, results, l) };
+			auto m4{ Matrix_4x4(i, j, k, results) };
+
+			auto d1{ m1.determinant() };
+			auto d2{ m2.determinant() };
+			auto d3{ m3.determinant() };
+			auto d4{ m4.determinatn() };
+
+			return Vector3(d1/det, d2/det, d3/det, d4/det);
+		}
+
+		inline constexpr
+		auto operator*(const float& factor) const -> Matrix_4x4{
+			return this->scaled(factor);
+		}
+
+		inline constexpr
+		auto operator/(const float& divisor) const -> Matrix_4x4{
+			return this->scaled(1.f/divisor);
+		}
+
+		inline constexpr
+		auto operator=(const Matrix_4x4& other) -> Matrix_4x4&{
+			this->i.set(other.i);
+			this->j.set(other.j);
+			this->k.set(other.k);
+			this->l.set(other.l);
+			
+			return *this;
+		}
+
+		inline constexpr
+		auto operator/=(const float& divisor) -> Matrix_4x4&{
+			return this->_scale(1.f/divisor);
+		}
+
+		inline constexpr
+		auto operator*=(const float& factor) -> Matrix_4x4&{
+			return this->_scale(factor);
+		}
+
+		inline constexpr
+		auto operator==(const Matrix_4x4& other) const -> bool {
+			return (i == other.i)
+				&& (j == other.j)
+				&& (k == other.k)
+				&& (l == other.l);
+		}
+
+		inline constexpr
+		auto operator!=(const Matrix_4x4& other) const -> bool {
+			return !(*this==other);
+		}
+
+		friend inline
+		auto operator<<(std::ostream &out, const Matrix_4x4& m)
+		-> std::ostream&;
+	};
+
+	inline constexpr
+	auto operator*(float scalar, const Matrix_4x4& m) -> Matrix_4x4 {
+		return m.scaled(scalar);
+	}
+
+	inline 
+	auto operator<<(std::ostream &out, const Matrix_4x4& m) 
+	-> std::ostream& {
+       	out << "[ " 	<< m.i.getX() 
+			<< " | " 	<< m.j.getX() 
+			<< " | " 	<< m.k.getX() 
+			<< " | " 	<< m.l.getX() 
+			<< " ]\n[ " << m.i.getY() 
+			<< " | " 	<< m.j.getY() 
+			<< " | " 	<< m.k.getY() 
+			<< " | " 	<< m.l.getY() 
+			<< " ]\n[ " << m.i.getZ() 
+			<< " | " 	<< m.j.getZ() 
+			<< " | " 	<< m.k.getZ() 
+			<< " | " 	<< m.l.getZ() 
+			<< " ]\n[ " << m.i.getW() 
+			<< " | " 	<< m.j.getW() 
+			<< " | " 	<< m.k.getW() 
+			<< " | " 	<< m.l.getW() 
+			<< " ]";
+   		return out;
+   	}
 	
 	inline constexpr
 	auto differentiate(const float& func) -> float {
@@ -1581,6 +1821,21 @@ namespace math{
 	inline constexpr
 	auto integrate(const Vector2& func) -> Vector3 {
 		return Vector3(func.getX()/2, func.getY(), 0.f);	
+	}
+
+	inline constexpr
+	auto differentiate(const Vector3& func) -> Vector2 {
+		return Vector2(func.getX()*2, func.getY());
+	}
+
+	inline constexpr
+	auto integrate(const Vector3& func) -> Vector4 {
+		return Vector4(func.getX()/3, func.getY()/2, func.getZ());
+	}
+
+	inline constexpr
+	auto differentiate(const Vector4& func) -> Vector3 {
+		return Vector3(func.getX()*3, func.getY()*3, func.getZ());
 	}
 
 	class Rect {
