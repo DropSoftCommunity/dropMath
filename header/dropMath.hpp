@@ -1221,6 +1221,19 @@ namespace math{
 		}
 
 		inline constexpr
+		auto add(const Matrix_2x2& other) const -> Matrix_2x2 {
+			return Matrix_2x2(
+				i.add(other.i),
+				j.add(other.j)
+			);
+		}
+
+		inline constexpr
+		auto operator+(const Matrix_2x2& other) const -> Matrix_2x2 {
+			return add(other);	
+		}
+
+		inline constexpr
 		auto operator*(const float& factor) const -> Matrix_2x2{
 			return this->scaled(factor);
 		}
