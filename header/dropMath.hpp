@@ -1580,7 +1580,7 @@ namespace math{
 		:i{i}, j{j}, k{k}, l{l}{}
 
 		inline constexpr
-		Matrix_4x4(Vector4&& i, Vector4&& j, Vector4&& k, Vector&& l)
+		Matrix_4x4(Vector4&& i, Vector4&& j, Vector4&& k, Vector4&& l)
 		:i{i}, j{j}, k{k}, l{l}{}
 
 		inline constexpr
@@ -1651,7 +1651,7 @@ namespace math{
 				-Matrix_3x3(
 						{i.getX(), i.getY(), i.getW()},
 						{k.getX(), k.getY(), k.getW()},
-						{l.getX(), l.getY(); l.getW()}
+						{l.getX(), l.getY(), l.getW()}
 				 ).determinant(),
 				+Matrix_3x3(
 						{i.getX(), i.getY(), i.getZ()},
@@ -1735,7 +1735,7 @@ namespace math{
 					{j.getX(), j.getY(), j.getZ()},
 					{k.getX(), k.getY(), k.getZ()},
 					{l.getX(), l.getY(), l.getZ()}
-			 ).determinant()
+			 ).determinant();
 		}
 		
 		inline constexpr
@@ -1753,7 +1753,7 @@ namespace math{
 			this->i._scale(scalar);
 			this->j._scale(scalar);
 			this->k._scale(scalar);
-			this->l._sclae(scalar);
+			this->l._scale(scalar);
 
 			return *this;
 		}
@@ -1775,7 +1775,7 @@ namespace math{
 				i.getX()*v.getX()+j.getX()*v.getY()+k.getX()*v.getZ()+l.getX()*v.getW(),		
 				i.getY()*v.getX()+j.getY()*v.getY()+k.getY()*v.getZ()+l.getY()*v.getW(),		
 				i.getZ()*v.getX()+j.getZ()*v.getY()+k.getZ()*v.getZ()+l.getZ()*v.getW(),		
-				i.getw()*v.getX()+j.getW()*v.getY()+k.getW()*v.getZ()+l.getW()*v.getW()		
+				i.getW()*v.getX()+j.getW()*v.getY()+k.getW()*v.getZ()+l.getW()*v.getW()		
 			);
 		}
 
@@ -1785,7 +1785,7 @@ namespace math{
 				i.getX()*v.getX()+j.getX()*v.getY()+k.getX()*v.getZ()+l.getX()*v.getW(),		
 				i.getY()*v.getX()+j.getY()*v.getY()+k.getY()*v.getZ()+l.getY()*v.getW(),		
 				i.getZ()*v.getX()+j.getZ()*v.getY()+k.getZ()*v.getZ()+l.getZ()*v.getW(),		
-				i.getw()*v.getX()+j.getW()*v.getY()+k.getW()*v.getZ()+l.getW()*v.getW()		
+				i.getW()*v.getX()+j.getW()*v.getY()+k.getW()*v.getZ()+l.getW()*v.getW()		
 			);
 		}
 
@@ -1796,25 +1796,25 @@ namespace math{
 				i.getX()*m.i.getX()+j.getX()*m.i.getY()+k.getX()*m.i.getZ()+l.getX()*m.i.getW(),		
 				i.getY()*m.i.getX()+j.getY()*m.i.getY()+k.getY()*m.i.getZ()+l.getY()*m.i.getW(),		
 				i.getZ()*m.i.getX()+j.getZ()*m.i.getY()+k.getZ()*m.i.getZ()+l.getZ()*m.i.getW(),		
-				i.getw()*m.i.getX()+j.getW()*m.i.getY()+k.getW()*m.i.getZ()+l.getW()*m.i.getW()		
+				i.getW()*m.i.getX()+j.getW()*m.i.getY()+k.getW()*m.i.getZ()+l.getW()*m.i.getW()		
 			},
 			{
 				i.getX()*m.j.getX()+j.getX()*m.j.getY()+k.getX()*m.j.getZ()+l.getX()*m.j.getW(),		
 				i.getY()*m.j.getX()+j.getY()*m.j.getY()+k.getY()*m.j.getZ()+l.getY()*m.j.getW(),		
 				i.getZ()*m.j.getX()+j.getZ()*m.j.getY()+k.getZ()*m.j.getZ()+l.getZ()*m.j.getW(),		
-				i.getw()*m.j.getX()+j.getW()*m.j.getY()+k.getW()*m.j.getZ()+l.getW()*m.j.getW()		
+				i.getW()*m.j.getX()+j.getW()*m.j.getY()+k.getW()*m.j.getZ()+l.getW()*m.j.getW()		
 			},
 			{
 				i.getX()*m.k.getX()+j.getX()*m.k.getY()+k.getX()*m.k.getZ()+l.getX()*m.k.getW(),		
 				i.getY()*m.k.getX()+j.getY()*m.k.getY()+k.getY()*m.k.getZ()+l.getY()*m.k.getW(),		
 				i.getZ()*m.k.getX()+j.getZ()*m.k.getY()+k.getZ()*m.k.getZ()+l.getZ()*m.k.getW(),		
-				i.getw()*m.k.getX()+j.getW()*m.k.getY()+k.getW()*m.k.getZ()+l.getW()*m.k.getW()		
+				i.getW()*m.k.getX()+j.getW()*m.k.getY()+k.getW()*m.k.getZ()+l.getW()*m.k.getW()		
 			},
 			{
 				i.getX()*m.l.getX()+j.getX()*m.l.getY()+k.getX()*m.l.getZ()+l.getX()*m.l.getW(),		
 				i.getY()*m.l.getX()+j.getY()*m.l.getY()+k.getY()*m.l.getZ()+l.getY()*m.l.getW(),		
 				i.getZ()*m.l.getX()+j.getZ()*m.l.getY()+k.getZ()*m.l.getZ()+l.getZ()*m.l.getW(),		
-				i.getw()*m.l.getX()+j.getW()*m.l.getY()+k.getW()*m.l.getZ()+l.getW()*m.l.getW()		
+				i.getW()*m.l.getX()+j.getW()*m.l.getY()+k.getW()*m.l.getZ()+l.getW()*m.l.getW()		
 			}
 			);
 		}
@@ -1825,25 +1825,25 @@ namespace math{
 				i.getX()*m.i.getX()+j.getX()*m.i.getY()+k.getX()*m.i.getZ()+l.getX()*m.i.getW(),		
 				i.getY()*m.i.getX()+j.getY()*m.i.getY()+k.getY()*m.i.getZ()+l.getY()*m.i.getW(),		
 				i.getZ()*m.i.getX()+j.getZ()*m.i.getY()+k.getZ()*m.i.getZ()+l.getZ()*m.i.getW(),		
-				i.getw()*m.i.getX()+j.getW()*m.i.getY()+k.getW()*m.i.getZ()+l.getW()*m.i.getW()		
+				i.getW()*m.i.getX()+j.getW()*m.i.getY()+k.getW()*m.i.getZ()+l.getW()*m.i.getW()		
 			);
 			m.j.set(
 				i.getX()*m.j.getX()+j.getX()*m.j.getY()+k.getX()*m.j.getZ()+l.getX()*m.j.getW(),		
 				i.getY()*m.j.getX()+j.getY()*m.j.getY()+k.getY()*m.j.getZ()+l.getY()*m.j.getW(),		
 				i.getZ()*m.j.getX()+j.getZ()*m.j.getY()+k.getZ()*m.j.getZ()+l.getZ()*m.j.getW(),		
-				i.getw()*m.j.getX()+j.getW()*m.j.getY()+k.getW()*m.j.getZ()+l.getW()*m.j.getW()		
+				i.getW()*m.j.getX()+j.getW()*m.j.getY()+k.getW()*m.j.getZ()+l.getW()*m.j.getW()		
 			);	
 			m.k.set(	
 				i.getX()*m.k.getX()+j.getX()*m.k.getY()+k.getX()*m.k.getZ()+l.getX()*m.k.getW(),		
 				i.getY()*m.k.getX()+j.getY()*m.k.getY()+k.getY()*m.k.getZ()+l.getY()*m.k.getW(),		
 				i.getZ()*m.k.getX()+j.getZ()*m.k.getY()+k.getZ()*m.k.getZ()+l.getZ()*m.k.getW(),		
-				i.getw()*m.k.getX()+j.getW()*m.k.getY()+k.getW()*m.k.getZ()+l.getW()*m.k.getW()		
+				i.getW()*m.k.getX()+j.getW()*m.k.getY()+k.getW()*m.k.getZ()+l.getW()*m.k.getW()		
 			);			
 			m.l.set(
 				i.getX()*m.l.getX()+j.getX()*m.l.getY()+k.getX()*m.l.getZ()+l.getX()*m.l.getW(),		
 				i.getY()*m.l.getX()+j.getY()*m.l.getY()+k.getY()*m.l.getZ()+l.getY()*m.l.getW(),		
 				i.getZ()*m.l.getX()+j.getZ()*m.l.getY()+k.getZ()*m.l.getZ()+l.getZ()*m.l.getW(),		
-				i.getw()*m.l.getX()+j.getW()*m.l.getY()+k.getW()*m.l.getZ()+l.getW()*m.l.getW()		
+				i.getW()*m.l.getX()+j.getW()*m.l.getY()+k.getW()*m.l.getZ()+l.getW()*m.l.getW()		
 			);
 			return m;
 		}
@@ -1854,25 +1854,25 @@ namespace math{
 				i.getX()*m.i.getX()+j.getX()*m.i.getY()+k.getX()*m.i.getZ()+l.getX()*m.i.getW(),		
 				i.getY()*m.i.getX()+j.getY()*m.i.getY()+k.getY()*m.i.getZ()+l.getY()*m.i.getW(),		
 				i.getZ()*m.i.getX()+j.getZ()*m.i.getY()+k.getZ()*m.i.getZ()+l.getZ()*m.i.getW(),		
-				i.getw()*m.i.getX()+j.getW()*m.i.getY()+k.getW()*m.i.getZ()+l.getW()*m.i.getW()		
+				i.getW()*m.i.getX()+j.getW()*m.i.getY()+k.getW()*m.i.getZ()+l.getW()*m.i.getW()		
 			);
 			j.set(
 				i.getX()*m.j.getX()+j.getX()*m.j.getY()+k.getX()*m.j.getZ()+l.getX()*m.j.getW(),		
 				i.getY()*m.j.getX()+j.getY()*m.j.getY()+k.getY()*m.j.getZ()+l.getY()*m.j.getW(),		
 				i.getZ()*m.j.getX()+j.getZ()*m.j.getY()+k.getZ()*m.j.getZ()+l.getZ()*m.j.getW(),		
-				i.getw()*m.j.getX()+j.getW()*m.j.getY()+k.getW()*m.j.getZ()+l.getW()*m.j.getW()		
+				i.getW()*m.j.getX()+j.getW()*m.j.getY()+k.getW()*m.j.getZ()+l.getW()*m.j.getW()		
 			);	
 			k.set(	
 				i.getX()*m.k.getX()+j.getX()*m.k.getY()+k.getX()*m.k.getZ()+l.getX()*m.k.getW(),		
 				i.getY()*m.k.getX()+j.getY()*m.k.getY()+k.getY()*m.k.getZ()+l.getY()*m.k.getW(),		
 				i.getZ()*m.k.getX()+j.getZ()*m.k.getY()+k.getZ()*m.k.getZ()+l.getZ()*m.k.getW(),		
-				i.getw()*m.k.getX()+j.getW()*m.k.getY()+k.getW()*m.k.getZ()+l.getW()*m.k.getW()		
+				i.getW()*m.k.getX()+j.getW()*m.k.getY()+k.getW()*m.k.getZ()+l.getW()*m.k.getW()		
 			);			
 			l.set(
 				i.getX()*m.l.getX()+j.getX()*m.l.getY()+k.getX()*m.l.getZ()+l.getX()*m.l.getW(),		
 				i.getY()*m.l.getX()+j.getY()*m.l.getY()+k.getY()*m.l.getZ()+l.getY()*m.l.getW(),		
 				i.getZ()*m.l.getX()+j.getZ()*m.l.getY()+k.getZ()*m.l.getZ()+l.getZ()*m.l.getW(),		
-				i.getw()*m.l.getX()+j.getW()*m.l.getY()+k.getW()*m.l.getZ()+l.getW()*m.l.getW()		
+				i.getW()*m.l.getX()+j.getW()*m.l.getY()+k.getW()*m.l.getZ()+l.getW()*m.l.getW()		
 			);
 			return *this;
 		}
@@ -1889,9 +1889,9 @@ namespace math{
 			auto d1{ m1.determinant() };
 			auto d2{ m2.determinant() };
 			auto d3{ m3.determinant() };
-			auto d4{ m4.determinatn() };
+			auto d4{ m4.determinant() };
 
-			return Vector3(d1/det, d2/det, d3/det, d4/det);
+			return Vector4(d1/det, d2/det, d3/det, d4/det);
 		}
 
 		inline constexpr
