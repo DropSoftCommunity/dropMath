@@ -11,6 +11,7 @@ namespace math{
 	auto floatTollerance{ 0.0001f };
 
     class Vector2{
+		mutable float length_cache;
 		mutable bool changed_length;
         float x, y;
 				
@@ -39,11 +40,13 @@ namespace math{
 			}
 			
 			inline constexpr
-			Vector2(float x=0.f, float y=0.f): changed_length{true}, x{x}, y{y}{
+			Vector2(float x=0.f, float y=0.f): length_cache{0.f}, 
+				changed_length{true}, x{x}, y{y}{
 			}
 
 			inline constexpr
-			Vector2(const Vector2& other): changed_length{true}, x{other.x}, y{other.y}{
+			Vector2(const Vector2& other): length_cache{0.f}, 
+				changed_length{true}, x{other.x}, y{other.y}{
 			}
 
 			/*
@@ -98,11 +101,10 @@ namespace math{
 			}
 			
 			auto length() const -> float {
-				static auto cache{ 0.f };;
 				if(changed_length)
-					cache = sqrtf(this->squared_length());
+					this->length_cache = sqrtf(this->squared_length());
 				this->changed_length = false;
-				return cache;
+				return this->length_cache;
 			}
 			
 			inline constexpr
@@ -359,6 +361,7 @@ namespace math{
 	}
 
     class Vector3{
+		mutable float length_cache;
 		mutable bool changed_length;
         float x, y, z;
 				
@@ -395,15 +398,18 @@ namespace math{
 			}
 
 			inline constexpr
-			Vector3(float x=0.f, float y=0.f, float z=0.f): changed_length{true}, x{x}, y{y}, z{z}{
+			Vector3(float x=0.f, float y=0.f, float z=0.f): 
+				length_cache{0.f}, changed_length{true}, x{x}, y{y}, z{z}{
 			}
 
 			inline constexpr
-			Vector3(const Vector3& other): changed_length{true}, x{other.x}, y{other.y}, z{other.z}{
+			Vector3(const Vector3& other): 
+				length_cache{0.f}, changed_length{true}, x{other.x}, y{other.y}, z{other.z}{
 			}
 
 			inline constexpr
-			Vector3(const Vector2& vec2): changed_length{true}, x{vec2.getX()}, y{vec2.getY()}, z{0.f}{
+			Vector3(const Vector2& vec2): 
+				length_cache{0.f}, changed_length{true}, x{vec2.getX()}, y{vec2.getY()}, z{0.f}{
 			}
 			
 			inline constexpr
@@ -467,11 +473,10 @@ namespace math{
 			}
 			
 			auto length() const -> float {
-				static auto cache{ 0.f };
 				if(changed_length)
-					cache = sqrtf(this->squared_length());
+					this->length_cache = sqrtf(this->squared_length());
 				this->changed_length = false;
-				return cache;
+				return this->length_cache;
 			}
 			
 			inline constexpr
@@ -720,6 +725,7 @@ namespace math{
 	}
 
     class Vector4{
+		mutable float length_cache;
 		mutable bool changed_length;
         float x, y, z, w;
 				
@@ -733,12 +739,12 @@ namespace math{
 
 			inline constexpr
 			Vector4(float x=0.f, float y=0.f, float z=0.f, float w=0.f)
-			:changed_length{true}, x{x}, y{y}, z{z}, w{w}{
+			:length_cache{0.f}, changed_length{true}, x{x}, y{y}, z{z}, w{w}{
 			}
 
 			inline constexpr
 			Vector4(const Vector4& other)
-			:changed_length{true}, x{other.x}, y{other.y}, z{other.z}, w{other.w}{
+			:length_cache{0.f}, changed_length{true}, x{other.x}, y{other.y}, z{other.z}, w{other.w}{
 			}
 
 			inline constexpr
@@ -818,11 +824,10 @@ namespace math{
 			}
 			
 			auto length() const -> float {
-				static auto cache{ 0.f };
 				if(changed_length)
-					cache = sqrtf(this->squared_length());
+					this->length_cache = sqrtf(this->squared_length());
 				this->changed_length = false;
-				return cache;
+				return this->length_cache;
 			}
 			
 			inline constexpr
