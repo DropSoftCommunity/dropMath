@@ -1,5 +1,7 @@
 #include <iostream>
+#include <config.h>
 #include "../header/dropMath.hpp"
+
 
 #include "Vector2_tests.hpp"
 #include "Vector3_tests.hpp"
@@ -8,6 +10,9 @@
 #include "general_tests.hpp"
 
 int main(){
+	std::cout << "dropMath Version: " << drop_math_test_VERSION_MAJOR
+	<< "." << drop_math_test_VERSION_MINOR << std::endl;
+
 	if(!Vector2_test()){
 		std::cerr << "Vector2 tests failed!" << std::endl;
 		return 1;
