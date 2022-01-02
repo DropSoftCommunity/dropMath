@@ -166,5 +166,18 @@ bool general_tests(){
 		std::cout <<"Matrix 3:\n"<<m3<<"\nMatrix 3 inverted:\n"<<m3.inverted()<<std::endl;
 
 	}
+	{
+		using vec3 = drop::math::Vector3;
+		
+		auto angleTest{ Timer("Angle between 2 Vectors") };
+
+		auto a{ vec3(1.f, 2.f, -2.f) };
+		auto b{ vec3(-3.f, -3.f, 0.f) };
+
+		std::cout << "Angle between Vector a : " << a
+				  << " and Vector b : " << b
+				  << "\nis " << a.angle_deg(b) << " degree."
+				  << std::endl;
+	}
 	return true;
 }
