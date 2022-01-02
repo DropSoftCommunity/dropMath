@@ -182,5 +182,19 @@ bool general_tests(){
 				  << "\nis " << a.angle_deg(b) << " degree."
 				  << std::endl;
 	}
+	{
+		using vec3 = drop::math::Vector3;
+		
+		auto grassman{ Timer("Grassman Identity") };
+
+		auto c{ vec3(1.f, 3.f, 1.f) };
+		auto b{ vec3(-2.f, 1.f, 1.f) };
+		auto a{ vec3(2.f, 2.f, 3.f) };
+
+		//c x (a x b)
+		auto res = c.dot_prod(b)*a - c.dot_prod(a)*b; 
+
+		std::cout << "Searched Vector is: " << res << std::endl;
+	}
 	return true;
 }
