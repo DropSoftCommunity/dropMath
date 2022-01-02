@@ -10,6 +10,9 @@ namespace math{
 	static constexpr
 	auto floatTollerance{ 0.0001f };
 
+	static constexpr
+	auto PI{ 3.14159265f };
+
     class Vector2{
 		mutable float length_cache;
 		mutable bool changed_length;
@@ -132,7 +135,7 @@ namespace math{
 				[[unlikely]]
 				if(this == &other) return 0.f;
 				if(this->equals(other)) return 0.f;
-				return acos(this->dot_prod(other));
+				return (180.f/PI)*acos(this->dot_prod(other));
 			}
 
 			inline constexpr
@@ -491,8 +494,7 @@ namespace math{
 
 			inline 
 			auto dot_prod(const Vector3& other) const -> float {
-				return Vector3(x*other.x, y*other.y, z*other.z).length()
-					   *cos(this->angle_deg(other));
+				return x*other.x + y*other.y  + z*other.z;
 			}
 
 			inline constexpr
@@ -509,8 +511,8 @@ namespace math{
 
 			inline 
 			auto angle_deg(const Vector3& other) const -> float {
-				return acos((x*other.x+y*other.y+z*other.z)
-						/(this->length() * other.length()));
+				return (180.f/PI)*(acosf((x*other.x + y*other.y + z*other.z)
+						/(this->length() * other.length())));
 			}
 
 			inline

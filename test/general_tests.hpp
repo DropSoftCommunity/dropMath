@@ -173,6 +173,9 @@ bool general_tests(){
 
 		auto a{ vec3(1.f, 2.f, -2.f) };
 		auto b{ vec3(-3.f, -3.f, 0.f) };
+		std::cout << "a * b = " << a.dot_prod(b) << std::endl;
+		std::cout << "Length of a is " << a.length() << std::endl;
+		std::cout << "Length of b is " << b.length() << std::endl;
 
 		std::cout << "Angle between Vector a : " << a
 				  << " and Vector b : " << b
