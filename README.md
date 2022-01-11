@@ -3,6 +3,7 @@
 | :warning:  This Library is under active development and not ready for production yet!   |
 |-----------------------------------------------------------------------------------------|
 
+>!We are looking for more developers. Feel free to contribute!
 
 # dropMath
 
