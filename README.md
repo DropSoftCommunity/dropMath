@@ -1,5 +1,9 @@
 <img src="icon.png" align="right" />
 
+| :warning:  This Library is under active development and not ready for production yet!   |
+|-----------------------------------------------------------------------------------------|
+
+
 # dropMath
 
 > The simple single header math library
