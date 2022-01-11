@@ -5,10 +5,10 @@
 | :warning:  This Library is under active development and not ready for production yet!   |
 |-----------------------------------------------------------------------------------------|
 
->! We are looking for more developers. Feel free to contribute!
+> :star: We are looking for more developers. Feel free to contribute!
 
 
-> The simple single header math library
+> :star: The simple single header math library
 
 [![CircleCI](https://circleci.com/gh/DropSoftCommunity/dropMath/tree/main.svg?style=svg)](https://circleci.com/gh/DropSoftCommunity/dropMath/tree/main)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)

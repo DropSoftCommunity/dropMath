@@ -6,9 +6,12 @@
 
 namespace drop{
 namespace math{
-
+	
+	/**
+	 *  Tolerance for floating point operations
+	 */
 	static constexpr
-	auto floatTollerance{ 0.0001f };
+	auto floatTolerance{ 0.0001f };
 
 	static constexpr
 	auto PI{ 3.14159265f };
@@ -19,7 +22,7 @@ namespace math{
         float x, y;
 				
 		public:
-			static constexpr float tollerance{ floatTollerance };
+			static constexpr float tolerance{ floatTolerance };
 
 			static constexpr auto infinity() -> Vector2 {
 				const auto inf{ std::numeric_limits<float>::infinity()};
@@ -318,8 +321,8 @@ namespace math{
 			inline constexpr
 			auto operator==(const Vector2& other) const -> bool {
 				return 
-					fabs(x - other.getX()) < Vector2::tollerance
-				 && fabs(y - other.getY()) < Vector2::tollerance;
+					fabs(x - other.getX()) < Vector2::tolerance
+				 && fabs(y - other.getY()) < Vector2::tolerance;
 			}
 
 			inline constexpr
@@ -369,7 +372,7 @@ namespace math{
         float x, y, z;
 				
 		public:
-			static constexpr float tollerance{ floatTollerance };
+			static constexpr float tolerance{ floatTolerance };
 
 			static constexpr auto infinity() -> Vector3 {
 				const auto inf{ std::numeric_limits<float>::infinity()};
@@ -674,9 +677,9 @@ namespace math{
 			inline constexpr
 			auto operator==(const Vector3& other) const -> bool {
 				return 
-					fabs(x - other.getX()) < Vector3::tollerance
-				 && fabs(y - other.getY()) < Vector3::tollerance
-				 && fabs(z - other.getZ()) < Vector3::tollerance;
+					fabs(x - other.getX()) < Vector3::tolerance
+				 && fabs(y - other.getY()) < Vector3::tolerance
+				 && fabs(z - other.getZ()) < Vector3::tolerance;
 			}
 
 			inline constexpr
@@ -732,7 +735,7 @@ namespace math{
         float x, y, z, w;
 				
 		public:
-			static constexpr float tollerance{ floatTollerance };
+			static constexpr float tolerance{ floatTolerance };
 
 			static constexpr auto infinity() -> Vector4 {
 				const auto inf{ std::numeric_limits<float>::infinity()};
@@ -1000,10 +1003,10 @@ namespace math{
 			inline constexpr
 			auto operator==(const Vector4& other) const -> bool {
 				return 
-					fabs(x - other.getX()) < Vector4::tollerance
-				 && fabs(y - other.getY()) < Vector4::tollerance
-				 && fabs(z - other.getZ()) < Vector4::tollerance
-				 && fabs(w - other.getW()) < Vector4::tollerance;
+					fabs(x - other.getX()) < Vector4::tolerance
+				 && fabs(y - other.getY()) < Vector4::tolerance
+				 && fabs(z - other.getZ()) < Vector4::tolerance
+				 && fabs(w - other.getW()) < Vector4::tolerance;
 			}
 
 			inline constexpr
@@ -1088,7 +1091,7 @@ namespace math{
 			auto tr1{ this->i.getX()/this->j.getX() };
 			auto tr2{ this->i.getY()/this->j.getY() };
 
-			if(fabs(tr1-tr2) < Vector2::tollerance){
+			if(fabs(tr1-tr2) < Vector2::tolerance){
 				if(opt_out_ratio != nullptr) *opt_out_ratio = tr1;
 				return true;
 			}
@@ -1271,10 +1274,10 @@ namespace math{
 		inline constexpr
 		auto operator==(const Matrix_2x2& other) const -> bool {
 			return 
-			   fabs(i.getX() - other.i.getX()) < Vector2::tollerance
-		 	&& fabs(i.getY() - other.i.getY()) < Vector2::tollerance
-		 	&& fabs(j.getX() - other.j.getX()) < Vector2::tollerance
-		 	&& fabs(j.getY() - other.j.getY()) < Vector2::tollerance;
+			   fabs(i.getX() - other.i.getX()) < Vector2::tolerance
+		 	&& fabs(i.getY() - other.i.getY()) < Vector2::tolerance
+		 	&& fabs(j.getX() - other.j.getX()) < Vector2::tolerance
+		 	&& fabs(j.getY() - other.j.getY()) < Vector2::tolerance;
 		}
 
 		inline constexpr
