@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/dropMath_examples.dir/examples.cpp.o -o dropMath_examples  /usr/lib/libraylib.so -L/usr/lib -lraylib 

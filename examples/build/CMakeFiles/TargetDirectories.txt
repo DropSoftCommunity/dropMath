@@ -1,0 +1,3 @@
+/home/me/Projects/CPP/dropMath/examples/build/CMakeFiles/dropMath_examples.dir
+/home/me/Projects/CPP/dropMath/examples/build/CMakeFiles/edit_cache.dir
+/home/me/Projects/CPP/dropMath/examples/build/CMakeFiles/rebuild_cache.dir
