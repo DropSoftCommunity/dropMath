@@ -2115,13 +2115,51 @@ namespace math{
 	
     inline constexpr
     auto lerp(const float& goal, const float& current, const float& step)-> float {
-    auto dif{ goal - current };
-    [[likely]]
-    if(dif > step)  return current+step;
-    if(dif < -step) return current-step;
-    [[unlikely]]
-    return goal;
+    	auto dif{ goal - current };
+    	[[likely]]
+    	if(dif > step)  return current+step;
+    	if(dif < -step) return current-step;
+    	[[unlikely]]
+    	return goal;
     }
+
+    inline constexpr
+    auto lerp(const Vector2& goal, const Vector2& current, const float& step)-> Vector2 {
+    	return Vector2(
+				lerp(goal.getX(), current.getX(), step),
+				lerp(goal.getY(), current.getY(), step)
+			);
+    }
+
+    inline constexpr
+    auto lerp(const Vector3& goal, const Vector3& current, const float& step)-> Vector3 {
+    	return Vector3(
+				lerp(goal.getX(), current.getX(), step),
+				lerp(goal.getY(), current.getY(), step),
+				lerp(goal.getZ(), current.getZ(), step)
+			);
+    }
+
+	inline constexpr
+	auto quadratic_bezier(const float& p0, const float& p1, const float& p2, const float& step) -> float {
+		auto l0{ lerp(p1, p0, step) };
+		auto l1{ lerp(p2, p1, step) };
+		return lerp(l1, l0, step);
+	}
+
+	inline constexpr
+	auto quadratic_bezier(const Vector2& p0, const Vector2& p1, const Vector2& p2, const float& step) -> Vector2 {
+		auto l0{ lerp(p1, p0, step) };
+		auto l1{ lerp(p2, p1, step) };
+		return lerp(l1, l0, step);
+	}
+
+	inline constexpr
+	auto quadratic_bezier(const Vector3& p0, const Vector3& p1, const Vector3& p2, const float& step) -> Vector3 {
+		auto l0{ lerp(p1, p0, step) };
+		auto l1{ lerp(p2, p1, step) };
+		return lerp(l1, l0, step);
+	}
 
 	inline constexpr
 	auto min(float& a, float& b) -> float& {
