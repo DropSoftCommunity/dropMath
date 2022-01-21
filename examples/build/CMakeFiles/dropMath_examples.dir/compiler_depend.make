@@ -3,8 +3,6 @@
 
 CMakeFiles/dropMath_examples.dir/examples.cpp.o: ../examples.cpp \
   /usr/include/stdc-predef.h \
-  /usr/include/raylib.h \
-  /usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/include/stdarg.h \
   /home/me/Projects/CPP/dropMath/header/dropMath.hpp \
   /usr/include/c++/11.1.0/cmath \
   /usr/include/c++/11.1.0/x86_64-pc-linux-gnu/bits/c++config.h \
@@ -105,6 +103,7 @@ CMakeFiles/dropMath_examples.dir/examples.cpp.o: ../examples.cpp \
   /usr/include/c++/11.1.0/bits/postypes.h \
   /usr/include/c++/11.1.0/cwchar \
   /usr/include/wchar.h \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/include/stdarg.h \
   /usr/include/bits/wchar.h \
   /usr/include/bits/types/wint_t.h \
   /usr/include/bits/types/mbstate_t.h \
@@ -205,8 +204,11 @@ CMakeFiles/dropMath_examples.dir/examples.cpp.o: ../examples.cpp \
   /usr/include/c++/11.1.0/bits/basic_ios.tcc \
   /usr/include/c++/11.1.0/bits/ostream.tcc \
   /usr/include/c++/11.1.0/istream \
-  /usr/include/c++/11.1.0/bits/istream.tcc
+  /usr/include/c++/11.1.0/bits/istream.tcc \
+  /usr/include/raylib.h
 
+
+/usr/include/raylib.h:
 
 /usr/include/c++/11.1.0/istream:
 
@@ -306,6 +308,12 @@ CMakeFiles/dropMath_examples.dir/examples.cpp.o: ../examples.cpp \
 
 /usr/include/c++/11.1.0/cctype:
 
+/usr/include/bits/thread-shared-types.h:
+
+/usr/include/c++/11.1.0/stdexcept:
+
+/usr/include/bits/pthreadtypes.h:
+
 /usr/include/c++/11.1.0/cwctype:
 
 /usr/include/bits/types/struct_timespec.h:
@@ -370,82 +378,6 @@ CMakeFiles/dropMath_examples.dir/examples.cpp.o: ../examples.cpp \
 
 /usr/include/math.h:
 
-/usr/include/bits/timesize.h:
-
-/usr/include/bits/waitstatus.h:
-
-/usr/include/bits/fp-fast.h:
-
-/usr/include/c++/11.1.0/ext/type_traits.h:
-
-/usr/include/bits/types/timer_t.h:
-
-/usr/include/c++/11.1.0/x86_64-pc-linux-gnu/bits/cpu_defines.h:
-
-/usr/include/bits/types/sigset_t.h:
-
-/usr/include/c++/11.1.0/cmath:
-
-/usr/include/stdc-predef.h:
-
-/usr/include/c++/11.1.0/bits/string_view.tcc:
-
-/usr/include/gnu/stubs.h:
-
-/usr/include/bits/pthreadtypes-arch.h:
-
-/usr/include/bits/floatn.h:
-
-/usr/include/bits/types/__fpos_t.h:
-
-/usr/include/bits/types/clock_t.h:
-
-/usr/include/bits/mathcalls.h:
-
-/usr/include/c++/11.1.0/bits/stringfwd.h:
-
-/usr/include/bits/typesizes.h:
-
-/usr/include/c++/11.1.0/bits/std_abs.h:
-
-/usr/include/c++/11.1.0/bits/locale_classes.h:
-
-/usr/include/bits/types/__locale_t.h:
-
-/usr/include/stdio.h:
-
-/home/me/Projects/CPP/dropMath/header/dropMath.hpp:
-
-/usr/include/c++/11.1.0/x86_64-pc-linux-gnu/bits/c++config.h:
-
-/usr/include/bits/wordsize.h:
-
-/usr/include/c++/11.1.0/x86_64-pc-linux-gnu/bits/os_defines.h:
-
-/usr/include/c++/11.1.0/x86_64-pc-linux-gnu/bits/atomic_word.h:
-
-/usr/include/c++/11.1.0/bits/memoryfwd.h:
-
-/usr/include/c++/11.1.0/bits/exception_ptr.h:
-
-/usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/include/stdarg.h:
-
-/usr/include/bits/byteswap.h:
-
-/usr/include/c++/11.1.0/bits/ostream.tcc:
-
-/usr/include/asm-generic/errno.h:
-
-/usr/include/c++/11.1.0/x86_64-pc-linux-gnu/bits/gthr.h:
-
-/usr/include/bits/fp-logb.h:
-
-/usr/include/bits/long-double.h:
-
-/usr/include/c++/11.1.0/pstl/pstl_config.h:
-
-/usr/include/raylib.h:
-
 /usr/include/c++/11.1.0/x86_64-pc-linux-gnu/bits/c++allocator.h:
 
 /usr/include/gnu/stubs-64.h:
@@ -456,7 +388,57 @@ CMakeFiles/dropMath_examples.dir/examples.cpp.o: ../examples.cpp \
 
 /usr/include/c++/11.1.0/tr1/poly_laguerre.tcc:
 
+/usr/include/stdc-predef.h:
+
+/usr/include/c++/11.1.0/cmath:
+
+/usr/include/c++/11.1.0/bits/string_view.tcc:
+
+/usr/include/gnu/stubs.h:
+
+/usr/include/bits/pthreadtypes-arch.h:
+
 /usr/include/sys/cdefs.h:
+
+/usr/include/c++/11.1.0/bits/locale_classes.h:
+
+/usr/include/bits/types/__locale_t.h:
+
+/usr/include/c++/11.1.0/bits/std_abs.h:
+
+/usr/include/bits/types/timer_t.h:
+
+/usr/include/c++/11.1.0/x86_64-pc-linux-gnu/bits/cpu_defines.h:
+
+/usr/include/c++/11.1.0/x86_64-pc-linux-gnu/bits/atomic_word.h:
+
+/usr/include/c++/11.1.0/bits/memoryfwd.h:
+
+/usr/include/c++/11.1.0/bits/exception_ptr.h:
+
+/usr/include/bits/typesizes.h:
+
+/usr/include/c++/11.1.0/x86_64-pc-linux-gnu/bits/os_defines.h:
+
+/usr/include/bits/wordsize.h:
+
+/usr/include/stdio.h:
+
+/home/me/Projects/CPP/dropMath/header/dropMath.hpp:
+
+/usr/include/c++/11.1.0/x86_64-pc-linux-gnu/bits/c++config.h:
+
+/usr/include/bits/types/sigset_t.h:
+
+/usr/include/bits/floatn.h:
+
+/usr/include/bits/types/__fpos_t.h:
+
+/usr/include/bits/types/clock_t.h:
+
+/usr/include/bits/mathcalls.h:
+
+/usr/include/c++/11.1.0/bits/stringfwd.h:
 
 /usr/include/c++/11.1.0/cerrno:
 
@@ -472,7 +454,19 @@ CMakeFiles/dropMath_examples.dir/examples.cpp.o: ../examples.cpp \
 
 /usr/include/c++/11.1.0/cstdint:
 
+/usr/include/bits/byteswap.h:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/include/stdarg.h:
+
 /usr/include/c++/11.1.0/bits/exception_defines.h:
+
+/usr/include/bits/timesize.h:
+
+/usr/include/bits/waitstatus.h:
+
+/usr/include/c++/11.1.0/ext/type_traits.h:
+
+/usr/include/bits/fp-fast.h:
 
 /usr/include/c++/11.1.0/bits/ostream_insert.h:
 
@@ -484,11 +478,17 @@ CMakeFiles/dropMath_examples.dir/examples.cpp.o: ../examples.cpp \
 
 /usr/include/bits/floatn-common.h:
 
-/usr/include/c++/11.1.0/stdexcept:
+/usr/include/bits/long-double.h:
 
-/usr/include/bits/pthreadtypes.h:
+/usr/include/c++/11.1.0/pstl/pstl_config.h:
 
-/usr/include/bits/thread-shared-types.h:
+/usr/include/c++/11.1.0/bits/ostream.tcc:
+
+/usr/include/asm-generic/errno.h:
+
+/usr/include/c++/11.1.0/x86_64-pc-linux-gnu/bits/gthr.h:
+
+/usr/include/bits/fp-logb.h:
 
 /usr/include/bits/struct_mutex.h:
 
@@ -521,10 +521,6 @@ CMakeFiles/dropMath_examples.dir/examples.cpp.o: ../examples.cpp \
 /usr/include/c++/11.1.0/bits/functexcept.h:
 
 /usr/include/c++/11.1.0/ext/numeric_traits.h:
-
-/usr/include/bits/locale.h:
-
-/usr/include/c++/11.1.0/bits/predefined_ops.h:
 
 /usr/include/c++/11.1.0/tr1/bessel_function.tcc:
 
@@ -617,3 +613,7 @@ CMakeFiles/dropMath_examples.dir/examples.cpp.o: ../examples.cpp \
 /usr/include/c++/11.1.0/bits/localefwd.h:
 
 /usr/include/c++/11.1.0/x86_64-pc-linux-gnu/bits/c++locale.h:
+
+/usr/include/c++/11.1.0/bits/predefined_ops.h:
+
+/usr/include/bits/locale.h:

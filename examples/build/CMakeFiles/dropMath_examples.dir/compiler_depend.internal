@@ -4,8 +4,6 @@
 CMakeFiles/dropMath_examples.dir/examples.cpp.o
  /home/me/Projects/CPP/dropMath/examples/examples.cpp
  /usr/include/stdc-predef.h
- /usr/include/raylib.h
- /usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/include/stdarg.h
  /home/me/Projects/CPP/dropMath/header/dropMath.hpp
  /usr/include/c++/11.1.0/cmath
  /usr/include/c++/11.1.0/x86_64-pc-linux-gnu/bits/c++config.h
@@ -106,6 +104,7 @@ CMakeFiles/dropMath_examples.dir/examples.cpp.o
  /usr/include/c++/11.1.0/bits/postypes.h
  /usr/include/c++/11.1.0/cwchar
  /usr/include/wchar.h
+ /usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/include/stdarg.h
  /usr/include/bits/wchar.h
  /usr/include/bits/types/wint_t.h
  /usr/include/bits/types/mbstate_t.h
@@ -207,4 +206,5 @@ CMakeFiles/dropMath_examples.dir/examples.cpp.o
  /usr/include/c++/11.1.0/bits/ostream.tcc
  /usr/include/c++/11.1.0/istream
  /usr/include/c++/11.1.0/bits/istream.tcc
+ /usr/include/raylib.h
 

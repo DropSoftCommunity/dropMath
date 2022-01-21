@@ -2123,42 +2123,52 @@ namespace math{
     	return goal;
     }
 
-    inline constexpr
+    inline
     auto lerp(const Vector2& goal, const Vector2& current, const float& step)-> Vector2 {
-    	return Vector2(
-				lerp(goal.getX(), current.getX(), step),
-				lerp(goal.getY(), current.getY(), step)
-			);
+		auto fwd{ goal-current };
+		fwd._normalize()._scale(step);
+		return current.add(fwd);
     }
 
-    inline constexpr
+    inline 
     auto lerp(const Vector3& goal, const Vector3& current, const float& step)-> Vector3 {
-    	return Vector3(
-				lerp(goal.getX(), current.getX(), step),
-				lerp(goal.getY(), current.getY(), step),
-				lerp(goal.getZ(), current.getZ(), step)
-			);
+		auto fwd{ goal-current };
+		fwd._normalize()._scale(step);
+		return current.add(fwd); 
     }
 
 	inline constexpr
-	auto quadratic_bezier(const float& p0, const float& p1, const float& p2, const float& step) -> float {
-		auto l0{ lerp(p1, p0, step) };
-		auto l1{ lerp(p2, p1, step) };
-		return lerp(l1, l0, step);
+	auto quadratic_bezier(const float& p0, const float& p1, const float& p2, const float& progress) -> float {
+		auto pr1{ fabs(p1-p0)*progress };	
+		auto pr2{ fabs(p2-p1)*progress };
+
+		auto l0{ lerp(p1, p0, pr1) };
+		auto l1{ lerp(p2, p1, pr2) };
+
+		auto pr3{ fabs(l1-l0)*progress };
+		return lerp(l1, l0, pr3);
 	}
 
-	inline constexpr
-	auto quadratic_bezier(const Vector2& p0, const Vector2& p1, const Vector2& p2, const float& step) -> Vector2 {
-		auto l0{ lerp(p1, p0, step) };
-		auto l1{ lerp(p2, p1, step) };
-		return lerp(l1, l0, step);
+	auto quadratic_bezier(const Vector2& p0, const Vector2& p1, const Vector2& p2, const float& progress) -> Vector2 {
+		auto pr1{ (p1-p0).length()*progress };	
+		auto pr2{ (p2-p1).length()*progress };
+
+		auto l0{ lerp(p1, p0, pr1) };
+		auto l1{ lerp(p2, p1, pr2) };
+
+		auto pr3{ (l0-l1).length()*progress };
+		return lerp(l1, l0, pr3);
 	}
 
-	inline constexpr
-	auto quadratic_bezier(const Vector3& p0, const Vector3& p1, const Vector3& p2, const float& step) -> Vector3 {
-		auto l0{ lerp(p1, p0, step) };
-		auto l1{ lerp(p2, p1, step) };
-		return lerp(l1, l0, step);
+	auto quadratic_bezier(const Vector3& p0, const Vector3& p1, const Vector3& p2, const float& progress) -> Vector3 {
+		auto pr1{ (p1-p0).length()*progress };	
+		auto pr2{ (p2-p1).length()*progress };
+
+		auto l0{ lerp(p1, p0, pr1) };
+		auto l1{ lerp(p2, p1, pr2) };
+
+		auto pr3{ (l0-l1).length()*progress };
+		return lerp(l1, l0, pr3);
 	}
 
 	inline constexpr
