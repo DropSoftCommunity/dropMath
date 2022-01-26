@@ -2066,15 +2066,41 @@ namespace math{
 		}
 	};
 
-	class Line2d {
+	class Plane3 {
+		Vector3 dir, r1, r2;
+
+	public:
+		inline constexpr
+		Plane3(const Vector3& dir, const Vector3& span1, const Vector3& span2):
+			dir{dir}, r1{span1}, r2{span2} {}
+
+		inline constexpr
+		auto getNormal() const -> const Vector3 {
+			return r1.cross_prod(r2); 
+		}
+
+		inline constexpr
+		auto isParallel(const Plane3& other) -> bool {
+			return this->getNormal().cross_prod(other.getNormal()).equals( {0.f, 0.f, 0.f} );
+		}
+
+		inline
+		auto distance(const Plane3& other) -> float {
+			if(!isParallel(other)) return 0.f;
+			return fabs(this->getNormal().dot_prod(r2-r1))
+				 / this->getNormal().length();
+		}
+	};
+
+	class Line2 {
 		Vector2 a, b;
 	public:
 		inline constexpr
-		Line2d(const Vector2& from, const Vector2& to)
+		Line2(const Vector2& from, const Vector2& to)
 		:a{from}, b{to} {}
 
 		inline constexpr
-		Line2d(Vector2&& from, Vector2&& to)
+		Line2(Vector2&& from, Vector2&& to)
 		:a{from}, b{to} {}
 
 		inline constexpr
@@ -2112,8 +2138,68 @@ namespace math{
 			return point.subtract(a.add(a.to(point).project(asVec2()))).length();	
 		}
 	};
+
+	class Line3 {
+		Vector3 a, b;
+	public:
+		inline constexpr
+		Line3(const Vector3& from, const Vector3& to)
+		:a{from}, b{to} {}
+
+		inline constexpr
+		Line3(Vector3&& from, Vector3&& to)
+		:a{from}, b{to} {}
+
+		inline constexpr
+		auto getFrom() const -> const Vector3& {
+			return a;
+		}
+
+		inline constexpr
+		auto getTo() const -> const Vector3 {
+			return b;
+		}
+
+		inline constexpr
+		auto getDir() const -> const Vector3 {
+			return (b-a);
+		}
+
+		inline constexpr
+		auto asVec3() const -> Vector3 {
+			return this->getDir();
+		}
+	};
+
+	inline 
+	auto intersect_angle(const Line3& line, const Plane3& plane) -> float {
+		return asinf(fabs(plane.getNormal().dot_prod(line.getDir()))
+						/(plane.getNormal().length()*line.getDir().length())
+				);
+	}
+
+	inline 
+	auto intersect_angle(const Plane3& plane, const Line3& line) -> float {
+		return intersect_angle(line, plane);
+	}
 	
-    inline constexpr
+	inline 
+	auto intercet_angle(const Plane3& p1, const Plane3& p2) -> float {
+		return acosf((p1.getNormal().dot_prod(p2.getNormal()))
+					/(p1.getNormal().length()*p2.getNormal().length())
+				);
+	}
+
+    inline 
+	auto intersect_line(const Plane3& p1, const Plane3& p2) -> Line3 {
+		auto pos{ p1.getNormal().cross_prod(p2.getNormal()) };
+		auto dir{ Vector3(1.f, 1.f, 1.f) };
+		//TODO: calculate dir
+
+		return Line3(pos, (pos+dir));
+	}
+
+	inline constexpr
     auto lerp(const float& goal, const float& current, const float& step)-> float {
     	auto dif{ goal - current };
     	[[likely]]
