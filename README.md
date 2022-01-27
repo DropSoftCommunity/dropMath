@@ -39,7 +39,7 @@ to have a modern C++ interface for the math library they are using.
 To install and use dropMath you only need to include the header (header/dropMath)
 in this repository.
 
-[![Installation](https://i9.ytimg.com/vi_webp/SEkMLR5pExY/mqdefault.webp)](https://youtu.be/SEkMLR5pExY)
+[![Installation](https://i9.ytimg.com/vi_webp/SEkMLR5pExY/mqdefault.webp?v=61f1f237&sqp=CJzyx48G&rs=AOn4CLAbzCp-ugVV3butSiogv2LwoBgXSA)](https://youtu.be/SEkMLR5pExY)
 
 ### Download the header
 
