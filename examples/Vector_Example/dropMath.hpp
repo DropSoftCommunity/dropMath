@@ -1239,22 +1239,10 @@ namespace math{
 		}
 
 		inline constexpr
-		auto sub(const Matrix_2x2& other) const -> Matrix_2x2 {
-			return Matrix_2x2(
-				i.subtract(other.i),
-				j.subtract(other.j)
-			);
-		}
-
-		inline constexpr
 		auto operator+(const Matrix_2x2& other) const -> Matrix_2x2 {
 			return add(other);	
 		}
 
-		inline constexpr
-		auto operator-(const Matrix_2x2& other) const -> Matrix_2x2 {
-			return sub(other);	
-		}
 		inline constexpr
 		auto operator*(const float& factor) const -> Matrix_2x2{
 			return this->scaled(factor);
@@ -1427,24 +1415,6 @@ namespace math{
 		}
 
 		inline constexpr
-		auto add(const Matrix_3x3& other) const -> Matrix_3x3 {
-			return Matrix_3x3{
-				this->i.add(other.i),
-				this->j.add(other.j),
-				this->k.add(other.k)
-			};
-		}
-
-		inline constexpr
-		auto sub(const Matrix_3x3& other) const -> Matrix_3x3 {
-			return Matrix_3x3{
-				this->i.subtract(other.i),
-				this->j.subtract(other.j),
-				this->k.subtract(other.k)
-			};
-		}
-
-		inline constexpr
 		auto inverted() const -> Matrix_3x3 {
 			return adjugated()._scale(1.f/determinant());
 		}
@@ -1550,23 +1520,8 @@ namespace math{
 		}
 
 		inline constexpr
-		auto operator+(const Matrix_3x3& other) const -> Matrix_3x3 {
-			return this->add(other);
-		}
-
-		inline constexpr
-		auto operator-(const Matrix_3x3& other) const -> Matrix_3x3 {
-			return this->sub(other);
-		}
-
-		inline constexpr
-		auto operator*(const float& factor) const -> Matrix_3x3 {
+		auto operator*(const float& factor) const -> Matrix_3x3{
 			return this->scaled(factor);
-		}
-
-		inline constexpr
-		auto operator*(const Matrix_3x3& other) const -> Matrix_3x3{
-			return this->applyTo(other);
 		}
 
 		inline constexpr
@@ -1651,13 +1606,6 @@ namespace math{
 		Matrix_4x4(Vector4&& i, Vector4&& j, Vector4&& k, Vector4&& l)
 		:i{i}, j{j}, k{k}, l{l}{}
 
-		inline constexpr
-		Matrix_4x4(Matrix_4x4&& other)
-		:i{other.i}, j{other.j}, k{other.k}, l{other.l}{}
-
-		inline constexpr
-		Matrix_4x4(const Matrix_4x4& other)
-		:i{other.i}, j{other.j}, k{other.k}, l{other.l}{}
 		inline constexpr
 		Matrix_4x4(float x1, float x2, float x3, float x4,
 				   float x5, float x6, float x7, float x8,
@@ -1811,26 +1759,6 @@ namespace math{
 					{k.getX(), k.getY(), k.getZ()},
 					{l.getX(), l.getY(), l.getZ()}
 			 ).determinant();
-		}
-
-		inline constexpr
-		auto add(const Matrix_4x4& other) const -> Matrix_4x4 {
-			return Matrix_4x4{
-				this->i.add(other.i),
-				this->j.add(other.j),
-				this->k.add(other.k),
-				this->l.add(other.l)
-			};
-		}
-
-		inline constexpr
-		auto sub(const Matrix_4x4& other) const -> Matrix_4x4 {
-			return Matrix_4x4{
-				this->i.subtract(other.i),
-				this->j.subtract(other.j),
-				this->k.subtract(other.k),
-				this->l.subtract(other.l)
-			};
 		}
 		
 		inline constexpr
@@ -1990,23 +1918,8 @@ namespace math{
 		}
 
 		inline constexpr
-		auto operator+(const Matrix_4x4& other) const -> Matrix_4x4 {
-			return this->add(other);
-		}
-
-		inline constexpr
-		auto operator-(const Matrix_4x4& other) const -> Matrix_4x4 {
-			return this->sub(other);
-		}
-
-		inline constexpr
 		auto operator*(const float& factor) const -> Matrix_4x4{
 			return this->scaled(factor);
-		}
-
-		inline constexpr
-		auto operator*(const Matrix_4x4& other) const -> Matrix_4x4{
-			return this->applyTo(other);
 		}
 
 		inline constexpr
