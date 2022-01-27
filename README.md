@@ -36,8 +36,10 @@ to have a modern C++ interface for the math library they are using.
 
 ## Installation
 
-to install and use dropMath you only need to include the header (header/dropMath)
+To install and use dropMath you only need to include the header (header/dropMath)
 in this repository.
+
+[![Installation](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimg.talkandroid.com%2Fuploads%2F2016%2F06%2Fyoutube_play_button_big.jpg&f=1&nofb=1)](https://youtu.be/SEkMLR5pExY)
 
 ### Download the header
 
