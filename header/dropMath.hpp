@@ -1019,8 +1019,8 @@ namespace math{
 				switch(index){
 					case 0:  return this->x;
 					case 1:  return this->y;
-					case 2:	 return this->w;
-					default: return this->z;
+					case 2:	 return this->z;
+					default: return this->w;
 				}
 			}
 
@@ -1073,6 +1073,10 @@ namespace math{
 				{-sinf(angle_deg), cosf(angle_deg)}
 			);
 		}
+
+		inline constexpr
+		Matrix_2x2():
+		i{1.f, 0.f}, j{0.f, 1.f}{}
 		
 		inline constexpr
 		Matrix_2x2(const Vector2& i, const Vector2& j)
@@ -1293,6 +1297,14 @@ namespace math{
 		}
 
 		inline constexpr
+		auto operator[](int index) -> Vector2& {
+			switch(index){	
+				case 0: return  this->i;	
+				default: return this->j;	
+			}
+		}
+
+		inline constexpr
 		auto operator!=(const Matrix_2x2& other) const -> bool {
 			return !(*this==other);
 		}
@@ -1327,6 +1339,10 @@ namespace math{
 							  {0.f, 1.f, 0.f},
 							  {0.f, 0.f, 1.f});
 		}
+
+		inline constexpr
+		Matrix_3x3():
+		i{1.f, 0.f, 0.f}, j{0.f, 1.f, 0.f}, k{0.f, 0.f, 1.f}{}
 
 		inline constexpr
 		Matrix_3x3(const Vector3& i, const Vector3& j, const Vector3& k)
@@ -1575,6 +1591,15 @@ namespace math{
 		}
 
 		inline constexpr
+		auto operator[](int index) -> Vector3& {
+			switch(index){	
+				case 0: return this->i;	
+				case 1: return this->j;
+				default: return this->k;	
+			}
+		}
+
+		inline constexpr
 		auto operator=(const Matrix_3x3& other) -> Matrix_3x3&{
 			this->i.set(other.i);
 			this->j.set(other.j);
@@ -1641,6 +1666,11 @@ namespace math{
 							  {0.f, 0.f, 1.f, 0.f},
 							  {0.f, 0.f, 0.f, 1.f});
 		}
+
+		inline constexpr
+		Matrix_4x4():
+		i{1.f, 0.f, 0.f, 0.f}, j{0.f, 1.f, 0.f, 0.f}, 
+		k{0.f, 0.f, 1.f, 0.f}, l{0.f, 0.f, 0.f, 1.f}{}
 
 		inline constexpr
 		Matrix_4x4(const Vector4& i, const Vector4& j, 
@@ -2032,6 +2062,16 @@ namespace math{
 		inline constexpr
 		auto operator*=(const float& factor) -> Matrix_4x4&{
 			return this->_scale(factor);
+		}
+
+		inline constexpr
+		auto operator[](int index) -> Vector4& {
+			switch(index){	
+				case 0: return this->i;	
+				case 1: return this->j;	
+				case 2: return this->k;	
+				default: return this->l;	
+			}
 		}
 
 		inline constexpr
