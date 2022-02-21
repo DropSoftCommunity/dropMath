@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iostream>
 #include <limits>
+#include <utility>
 
 namespace drop{
 namespace math{
@@ -16,6 +17,9 @@ namespace math{
 	static constexpr
 	auto PI{ 3.14159265f };
 
+	static constexpr	
+	auto inf{ std::numeric_limits<float>::infinity() };
+
     class Vector2{
 		mutable float length_cache;
 		mutable bool changed_length;
@@ -24,8 +28,8 @@ namespace math{
 		public:
 			static constexpr float tolerance{ floatTolerance };
 
-			static constexpr auto infinity() -> Vector2 {
-				const auto inf{ std::numeric_limits<float>::infinity()};
+			static constexpr 
+			auto infinity() -> Vector2 {
 				return Vector2(inf, inf);
 			}
 
@@ -70,21 +74,21 @@ namespace math{
 				return this->y;
 			}
 			
-			inline constexpr
+			inline 
 			auto setX(const float& new_x) -> Vector2& {
 				this->changed_length = true;
 				this->x = new_x;
 				return *this;
 			}
 
-			inline constexpr
+			inline 
 			auto setY(const float& new_y) -> Vector2& {
 				this->changed_length = true;
 				this->y = new_y;
 				return *this;
 			}
 
-			inline constexpr
+			inline 
 			auto set(const float& new_x, const float& new_y) -> Vector2& {
 				this->changed_length = true;
 				this->x = new_x;
@@ -92,7 +96,7 @@ namespace math{
 				return *this;
 			}
 
-			inline constexpr
+			inline 
 			auto set(const Vector2& other) -> Vector2& {
 				if(this == &other) return *this;
 				this->changed_length = true;
@@ -133,9 +137,8 @@ namespace math{
 				return *this == other;
 			}
 
-			inline constexpr
+			inline 
 			auto angle_deg(const Vector2& other) const -> float {
-				[[unlikely]]
 				if(this == &other) return 0.f;
 				if(this->equals(other)) return 0.f;
 				return (180.f/PI)*acos(this->dot_prod(other));
@@ -149,12 +152,17 @@ namespace math{
 				);
 			}
 
-			inline constexpr
+			inline 
 			auto _rotate(const float& angle_deg) -> Vector2& {
 				return this->set(
 						x*cos(angle_deg) - y*sin(angle_deg),
 						x*sin(angle_deg) + y*cos(angle_deg)
 				);
+			}
+
+			inline constexpr
+			auto solve() const -> float {
+				return -this->getY();
 			}
 
 			inline
@@ -171,14 +179,14 @@ namespace math{
 				return -1.f*infront_of(other, other_fwd);
 			}
 
-			inline constexpr
+			inline 
 			auto move_towards(const Vector2& other, const float& amt)
 			const -> Vector2{
 				auto to{ this->to(other) };
 				return (*this+to._scale(amt));
 			}
 
-			inline constexpr
+			inline 
 			auto _move_towards(const Vector2& other, const float& amt)
 			-> Vector2& {
 				this->changed_length = true;
@@ -205,7 +213,7 @@ namespace math{
 				return (this->dot_prod(other)/other.dot_prod(other));
 			}
 
-			inline constexpr
+			inline 
 			auto _project(const Vector2& other) -> Vector2& {
 				return this->set(project(other));
 			}
@@ -225,7 +233,7 @@ namespace math{
 				return Vector2(x*factor, y*factor);
 			}
 
-			inline constexpr
+			inline 
 			auto _scale(const float& factor) -> Vector2&{
 				this->changed_length = true;
 				this->x *= factor;
@@ -238,7 +246,7 @@ namespace math{
 				return Vector2(x-other.getX(), y-other.getY());
 			}
 			
-			inline constexpr
+			inline 
 			auto _subtract(const Vector2& other) -> Vector2& {
 				this->changed_length = true;
 				this->x -= other.getX();
@@ -246,13 +254,13 @@ namespace math{
 				return *this;
 			}
 
-			inline constexpr
+			inline 
 			auto divide(const float& divisor) const -> Vector2 {
 				if(divisor == 0) return Vector2::infinity();
 				return Vector2(x/divisor, y/divisor);
 			}
 
-			inline constexpr
+			inline 
 			auto _divide(const float& divisor) -> Vector2& {
 				this->changed_length = true;
 				this->x /= divisor;
@@ -265,7 +273,7 @@ namespace math{
 				return Vector2(x+other.getX(), y+other.getY()); 
 			}
 
-			inline constexpr
+			inline 
 			auto _add(const Vector2& other) -> Vector2& {
 				this->changed_length = true;
 				this->x += other.getX();
@@ -293,27 +301,27 @@ namespace math{
 				return this->subtract(other);
 			}
 
-			inline constexpr
+			inline 
 			auto operator=(const Vector2& other) -> Vector2&{
 				return this->set(other);
 			}
 
-			inline constexpr
+			inline 
 			auto operator-=(const Vector2& other) -> Vector2&{
 				return this->_subtract(other);
 			}
 
-			inline constexpr
+			inline 
 			auto operator+=(const Vector2& other) -> Vector2&{
 				return this->_add(other);
 			}
 
-			inline constexpr
+			inline 
 			auto operator/=(const float& divisor) -> Vector2&{
 				return this->_divide(divisor);
 			}
 
-			inline constexpr
+			inline 
 			auto operator*=(const float& factor) -> Vector2&{
 				return this->_scale(factor);
 			}
@@ -330,17 +338,17 @@ namespace math{
 				return !(*this==other);
 			}
 
-			inline constexpr
+			inline 
 			auto operator[](const int& index) -> float& {
 				return (!index ? this->x : this->y);
 			}
 
-			auto operator%=(const int& d) = delete;
-			auto operator&=(const int& d) = delete;
-			auto operator|=(const int& d) = delete;
-			auto operator^=(const int& d) = delete;
-			auto operator>>=(const int& d) = delete;
-			auto operator<<=(const int& d) = delete;
+			auto operator%=(const int& d)  -> void = delete;
+			auto operator&=(const int& d)  -> void = delete;
+			auto operator|=(const int& d)  -> void = delete;
+			auto operator^=(const int& d)  -> void = delete;
+			auto operator>>=(const int& d) -> void = delete;
+			auto operator<<=(const int& d) -> void = delete;
 
 			friend inline 
 			auto operator>>(std::istream &in, Vector2& vec)
@@ -433,28 +441,28 @@ namespace math{
 				return this->z;
 			}
 			
-			inline constexpr
+			inline 
 			auto setX(const float& new_x) -> Vector3& {
 				this->changed_length = true;
 				this->x = new_x;
 				return *this;
 			}
 
-			inline constexpr
+			inline 
 			auto setY(const float& new_y) -> Vector3& {
 				this->changed_length = true;
 				this->y = new_y;
 				return *this;
 			}
 
-			inline constexpr
+			inline 
 			auto setZ(const float& new_z) -> Vector3& {
 				this->changed_length = true;
 				this->z = new_z;
 				return *this;
 			}
 
-			inline constexpr
+			inline 
 			auto set(const float& new_x, const float& new_y, const float& new_z) -> Vector3& {
 				this->changed_length = true;
 				this->x = new_x;
@@ -463,7 +471,7 @@ namespace math{
 				return *this;
 			}
 
-			inline constexpr
+			inline 
 			auto set(const Vector3& other) -> Vector3& {
 				if(this == &other) return *this;
 				this->changed_length = true;
@@ -518,6 +526,21 @@ namespace math{
 						/(this->length() * other.length())));
 			}
 
+			inline 
+			auto solve() const -> std::pair<float, float> const {
+				const auto a{ this->getX() };
+				const auto b{ this->getY() };
+				const auto c{ this->getZ() };
+
+				auto s_root {sqrtf(b*b - 4*a*c) };
+
+				auto x{ std::pair<float, float>() };
+				x.first  = (-b+s_root)/(2*a);
+				x.second = (-b-s_root)/(2*a);
+
+				return x;
+			}
+
 			inline
 			auto infront_of(const Vector3& other, const Vector3& other_fwd)
 			const -> float {
@@ -532,14 +555,14 @@ namespace math{
 				return -1.f*infront_of(other, other_fwd);
 			}
 
-			inline constexpr
+			inline 
 			auto move_towards(const Vector3& other, const float& amt)
 			const -> Vector3{
 				auto to{ this->to(other) };
 				return (*this+to._scale(amt));
 			}
 
-			inline constexpr
+			inline 
 			auto _move_towards(const Vector3& other, const float& amt)
 			-> Vector3& {
 				this->changed_length = true;
@@ -577,7 +600,7 @@ namespace math{
 				return Vector3(x*factor, y*factor, z*factor);
 			}
 
-			inline constexpr
+			inline 
 			auto _scale(const float& factor) -> Vector3&{
 				this->changed_length = true;
 				this->x *= factor;
@@ -591,7 +614,7 @@ namespace math{
 				return Vector3(x-other.getX(), y-other.getY(), z-other.getZ());
 			}
 			
-			inline constexpr
+			inline 
 			auto _subtract(const Vector3& other) -> Vector3& {
 				this->changed_length = true;
 				this->x -= other.getX();
@@ -600,13 +623,13 @@ namespace math{
 				return *this;
 			}
 
-			inline constexpr
+			inline 
 			auto divide(const float& divisor) const -> Vector3 {
 				if(divisor == 0) return Vector2::infinity();
 				return Vector3(x/divisor, y/divisor, z/divisor);
 			}
 
-			inline constexpr
+			inline 
 			auto _divide(const float& divisor) -> Vector3& {
 				this->changed_length = true;
 				this->x /= divisor;
@@ -620,7 +643,7 @@ namespace math{
 				return Vector3(x+other.getX(), y+other.getY(), z+other.getZ()); 
 			}
 
-			inline constexpr
+			inline 
 			auto _add(const Vector3& other) -> Vector3& {
 				this->changed_length = true;
 				this->x += other.getX();
@@ -649,27 +672,27 @@ namespace math{
 				return this->subtract(other);
 			}
 
-			inline constexpr
+			inline 
 			auto operator=(const Vector3& other) -> Vector3&{
 				return this->set(other);
 			}
 
-			inline constexpr
+			inline 
 			auto operator-=(const Vector3& other) -> Vector3&{
 				return this->_subtract(other);
 			}
 
-			inline constexpr
+			inline 
 			auto operator+=(const Vector3& other) -> Vector3&{
 				return this->_add(other);
 			}
 
-			inline constexpr
+			inline 
 			auto operator/=(const float& divisor) -> Vector3&{
 				return this->_divide(divisor);
 			}
 
-			inline constexpr
+			inline 
 			auto operator*=(const float& factor) -> Vector3&{
 				return this->_scale(factor);
 			}
@@ -687,7 +710,7 @@ namespace math{
 				return !(*this==other);
 			}
 
-			inline constexpr
+			inline 
 			auto operator[](const int& index) -> float& {
 				switch(index){
 					case 0:  return this->x;
@@ -696,12 +719,12 @@ namespace math{
 				}
 			}
 
-			auto operator%=(const int& d) = delete;
-			auto operator&=(const int& d) = delete;
-			auto operator|=(const int& d) = delete;
-			auto operator^=(const int& d) = delete;
-			auto operator>>=(const int& d) = delete;
-			auto operator<<=(const int& d) = delete;
+			auto operator%=(const int& d)  -> void = delete;
+			auto operator&=(const int& d)  -> void = delete;
+			auto operator|=(const int& d)  -> void = delete;
+			auto operator^=(const int& d)  -> void = delete;
+			auto operator>>=(const int& d) -> void = delete;
+			auto operator<<=(const int& d) -> void = delete;
 
 			friend inline 
 			auto operator>>(std::istream &in, Vector3& vec)
@@ -772,35 +795,35 @@ namespace math{
 				return this->w;
 			}
 
-			inline constexpr
+			inline 
 			auto setX(const float& new_x) -> Vector4& {
 				this->changed_length = true;
 				this->x = new_x;
 				return *this;
 			}
 
-			inline constexpr
+			inline
 			auto setY(const float& new_y) -> Vector4& {
 				this->changed_length = true;
 				this->y = new_y;
 				return *this;
 			}
 
-			inline constexpr
+			inline 
 			auto setZ(const float& new_z) -> Vector4& {
 				this->changed_length = true;
 				this->z = new_z;
 				return *this;
 			}
 
-			inline constexpr
+			inline 
 			auto setW(const float& new_w) -> Vector4& {
 				this->changed_length = true;
 				this->w = new_w;
 				return *this;
 			}
 
-			inline constexpr
+			inline 
 			auto set(const float& new_x, const float& new_y, 
 					 const float& new_z, const float& new_w)
 			-> Vector4& {
@@ -812,7 +835,7 @@ namespace math{
 				return *this;
 			}
 
-			inline constexpr
+			inline 
 			auto set(const Vector4& other) -> Vector4& {
 				if(this == &other) return *this;
 				this->changed_length = true;
@@ -851,14 +874,14 @@ namespace math{
 				return *this == other;
 			}
 
-			inline constexpr
+			inline 
 			auto move_towards(const Vector4& other, const float& amt)
 			const -> Vector4{
 				auto to{ this->to(other) };
 				return (*this+to._scale(amt));
 			}
 
-			inline constexpr
+			inline 
 			auto _move_towards(const Vector4& other, const float& amt)
 			-> Vector4& {
 				this->changed_length = true;
@@ -897,7 +920,7 @@ namespace math{
 				return Vector4(x*factor, y*factor, z*factor, w*factor);
 			}
 
-			inline constexpr
+			inline 
 			auto _scale(const float& factor) -> Vector4&{
 				this->changed_length = true;
 				this->x *= factor;
@@ -913,7 +936,7 @@ namespace math{
 							   z-other.getZ(), w-other.getW());
 			}
 			
-			inline constexpr
+			inline 
 			auto _subtract(const Vector4& other) -> Vector4& {
 				this->changed_length = true;
 				this->x -= other.getX();
@@ -923,13 +946,13 @@ namespace math{
 				return *this;
 			}
 
-			inline constexpr
+			inline 
 			auto divide(const float& divisor) const -> Vector4 {
 				if(divisor == 0) return Vector4::infinity();
 				return Vector4(x/divisor, y/divisor, z/divisor, w/divisor);
 			}
 
-			inline constexpr
+			inline 
 			auto _divide(const float& divisor) -> Vector4& {
 				this->changed_length = true;
 				this->x /= divisor;
@@ -945,7 +968,7 @@ namespace math{
 							   z+other.getZ(), w+other.getW()); 
 			}
 
-			inline constexpr
+			inline 
 			auto _add(const Vector4& other) -> Vector4& {
 				this->changed_length = true;
 				this->x += other.getX();
@@ -975,27 +998,27 @@ namespace math{
 				return this->subtract(other);
 			}
 
-			inline constexpr
+			inline 
 			auto operator=(const Vector4& other) -> Vector4&{
 				return this->set(other);
 			}
 
-			inline constexpr
+			inline 
 			auto operator-=(const Vector4& other) -> Vector4&{
 				return this->_subtract(other);
 			}
 
-			inline constexpr
+			inline 
 			auto operator+=(const Vector4& other) -> Vector4&{
 				return this->_add(other);
 			}
 
-			inline constexpr
+			inline 
 			auto operator/=(const float& divisor) -> Vector4&{
 				return this->_divide(divisor);
 			}
 
-			inline constexpr
+			inline 
 			auto operator*=(const float& factor) -> Vector4&{
 				return this->_scale(factor);
 			}
@@ -1014,7 +1037,7 @@ namespace math{
 				return !(*this==other);
 			}
 
-			inline constexpr
+			inline 
 			auto operator[](const int& index) -> float& {
 				switch(index){
 					case 0:  return this->x;
@@ -1024,12 +1047,12 @@ namespace math{
 				}
 			}
 
-			auto operator%=	(const int& d) 	= delete;
-			auto operator&=	(const int& d) 	= delete;
-			auto operator|=	(const int& d) 	= delete;
-			auto operator^=	(const int& d) 	= delete;
-			auto operator>>=(const int& d) 	= delete;
-			auto operator<<=(const int& d) 	= delete;
+			auto operator%=	(const int& d) -> void = delete;
+			auto operator&=	(const int& d) -> void = delete;
+			auto operator|=	(const int& d) -> void = delete;
+			auto operator^=	(const int& d) -> void = delete;
+			auto operator>>=(const int& d) -> void = delete;
+			auto operator<<=(const int& d) -> void = delete;
 
 			friend inline 
 			auto operator>>(std::istream &in, Vector4& vec)
@@ -1061,9 +1084,9 @@ namespace math{
 	class Matrix_2x2 {
 		Vector2 i, j;
 	public:
-		inline static constexpr
+		inline static constexpr 
 		auto identity() -> Matrix_2x2 {
-			return Matrix_2x2({1.f, 0.f}, {0.f, 1.f});
+			return Matrix_2x2(1.f, 0.f, 0.f, 1.f);
 		}
 
 		inline static constexpr
@@ -1090,7 +1113,7 @@ namespace math{
 		Matrix_2x2(float x1, float x2, float x3, float x4):
 		i(x1, x2), j(x3, x4){}
 
-		inline constexpr
+		inline 
 		auto isIndependent(float* opt_out_ratio=nullptr) const -> bool {
 			auto tr1{ this->i.getX()/this->j.getX() };
 			auto tr2{ this->i.getY()/this->j.getY() };
@@ -1110,7 +1133,7 @@ namespace math{
 			};
 		}
 
-		inline constexpr
+		inline 
 		auto _transpose() -> Matrix_2x2 {
 			auto tmp{ this->i.getY() };
 			this->i.setY(this->j.getX());
@@ -1126,7 +1149,7 @@ namespace math{
 			};
 		}
 
-		inline constexpr
+		inline 
 		auto _adjugate() -> Matrix_2x2& {
 			auto tmp{ this->i.getX() };
 			this->i.setX(this->j.getY());
@@ -1150,7 +1173,7 @@ namespace math{
 			};
 		}
 
-		inline constexpr
+		inline 
 		auto _scale(const float& scalar) -> Matrix_2x2& {
 			this->i._scale(scalar);
 			this->j._scale(scalar);
@@ -1163,7 +1186,7 @@ namespace math{
 			return adjugated()._scale(1.f/determinant());
 		}
 
-		inline constexpr
+		inline 
 		auto _invert() -> Matrix_2x2& {
 			auto tmp{ determinant() };
 			return _adjugate()._scale(1.f/tmp);
@@ -1195,7 +1218,7 @@ namespace math{
 			);
 		}
 
-		inline constexpr
+		inline 
 		auto applyTo(Matrix_2x2& m) const -> Matrix_2x2& {
 			m.i.set(
 				i.getX()*m.i.getX() + j.getX()*m.i.getY(),
@@ -1208,7 +1231,7 @@ namespace math{
 			return m;
 		}
 
-		inline constexpr
+		inline 
 		auto _selfApply(Matrix_2x2& m) -> Matrix_2x2& {
 			this->i.set(
 				m.i.getX()*i.getX() + m.j.getX()*i.getY(),
@@ -1221,7 +1244,7 @@ namespace math{
 			return *this;
 		}
 
-		inline constexpr
+		inline 
 		auto solveFor(const Vector2& results) const -> Vector2 {
 			auto det{ determinant() };
 			
@@ -1269,7 +1292,7 @@ namespace math{
 			return this->scaled(1.f/divisor);
 		}
 
-		inline constexpr
+		inline 
 		auto operator=(const Matrix_2x2& other) -> Matrix_2x2&{
 			this->i.set(other.i);
 			this->j.set(other.j);
@@ -1277,12 +1300,12 @@ namespace math{
 			return *this;
 		}
 
-		inline constexpr
+		inline 
 		auto operator/=(const float& divisor) -> Matrix_2x2&{
 			return this->_scale(1.f/divisor);
 		}
 
-		inline constexpr
+		inline 
 		auto operator*=(const float& factor) -> Matrix_2x2&{
 			return this->_scale(factor);
 		}
@@ -1296,7 +1319,7 @@ namespace math{
 		 	&& fabs(j.getY() - other.j.getY()) < Vector2::tolerance;
 		}
 
-		inline constexpr
+		inline 
 		auto operator[](int index) -> Vector2& {
 			switch(index){	
 				case 0: return  this->i;	
@@ -1372,7 +1395,7 @@ namespace math{
 			};
 		}
 
-		inline constexpr
+		inline 
 		auto _transpose() -> Matrix_3x3 {
 			const auto tmp_iy{ i.getY() };
 			const auto tmp_iz{ i.getZ() };
@@ -1385,7 +1408,7 @@ namespace math{
 			return *this;
 		}
 
-		inline constexpr
+		inline 
 		auto adjugated() const -> Matrix_3x3 {
 			auto adj{ Matrix_3x3{
 			{
@@ -1407,7 +1430,7 @@ namespace math{
 			return adj._transpose();
 		}
 
-		inline constexpr
+		inline 
 		auto _adjugate() -> Matrix_3x3& {
 			*this = adjugated();
 			return *this;
@@ -1433,7 +1456,7 @@ namespace math{
 			};
 		}
 
-		inline constexpr
+		inline 
 		auto _scale(const float& scalar) -> Matrix_3x3& {
 			this->i._scale(scalar);
 			this->j._scale(scalar);
@@ -1465,7 +1488,7 @@ namespace math{
 			return adjugated()._scale(1.f/determinant());
 		}
 
-		inline constexpr
+		inline 
 		auto _invert() -> Matrix_3x3& {
 			auto tmp{ determinant() };
 			return _adjugate()._scale(1.f/tmp);
@@ -1510,7 +1533,7 @@ namespace math{
 			);
 		}
 
-		inline constexpr
+		inline 
 		auto applyTo(Matrix_3x3& m) const -> Matrix_3x3& {
 			m.i.set(
 				i.getX()*m.i.getX()+j.getX()*m.i.getY()+k.getX()*m.i.getZ(),
@@ -1530,7 +1553,7 @@ namespace math{
 			return m;
 		}
 
-		inline constexpr
+		inline 
 		auto _selfApply(Matrix_3x3& m) -> Matrix_3x3& {
 			this->i.set(
 				i.getX()*m.i.getX()+j.getX()*m.i.getY()+k.getX()*m.i.getZ(),
@@ -1550,7 +1573,7 @@ namespace math{
 			return *this;
 		}
 
-		inline constexpr
+		inline 
 		auto solveFor(const Vector3& results) const -> Vector3 {
 			auto det{ determinant() };
 			
@@ -1590,7 +1613,7 @@ namespace math{
 			return this->scaled(1.f/divisor);
 		}
 
-		inline constexpr
+		inline 
 		auto operator[](int index) -> Vector3& {
 			switch(index){	
 				case 0: return this->i;	
@@ -1599,7 +1622,7 @@ namespace math{
 			}
 		}
 
-		inline constexpr
+		inline 
 		auto operator=(const Matrix_3x3& other) -> Matrix_3x3&{
 			this->i.set(other.i);
 			this->j.set(other.j);
@@ -1608,12 +1631,12 @@ namespace math{
 			return *this;
 		}
 
-		inline constexpr
+		inline 
 		auto operator/=(const float& divisor) -> Matrix_3x3&{
 			return this->_scale(1.f/divisor);
 		}
 
-		inline constexpr
+		inline 
 		auto operator*=(const float& factor) -> Matrix_3x3&{
 			return this->_scale(factor);
 		}
@@ -1711,13 +1734,13 @@ namespace math{
 			};
 		}
 
-		inline constexpr
+		inline 
 		auto _transpose() -> Matrix_4x4 {
 			*this = transposed();
 			return *this;
 		}
 
-		inline constexpr
+		inline 
 		auto adjugated() const -> Matrix_4x4 {
 			auto adj{ Matrix_4x4{
 			{
@@ -1812,7 +1835,7 @@ namespace math{
 			return adj._transpose();
 		}
 
-		inline constexpr
+		inline 
 		auto _adjugate() -> Matrix_4x4& {
 			*this = adjugated();
 			return *this;
@@ -1873,7 +1896,7 @@ namespace math{
 			};
 		}
 
-		inline constexpr
+		inline 
 		auto _scale(const float& scalar) -> Matrix_4x4& {
 			this->i._scale(scalar);
 			this->j._scale(scalar);
@@ -1888,7 +1911,7 @@ namespace math{
 			return adjugated()._scale(1.f/determinant());
 		}
 
-		inline constexpr
+		inline 
 		auto _invert() -> Matrix_4x4& {
 			auto tmp{ determinant() };
 			return _adjugate()._scale(1.f/tmp);
@@ -1944,7 +1967,7 @@ namespace math{
 			);
 		}
 
-		inline constexpr
+		inline 
 		auto applyTo(Matrix_4x4& m) const -> Matrix_4x4& {
 			m.i.set(
 				i.getX()*m.i.getX()+j.getX()*m.i.getY()+k.getX()*m.i.getZ()+l.getX()*m.i.getW(),		
@@ -1973,7 +1996,7 @@ namespace math{
 			return m;
 		}
 
-		inline constexpr
+		inline 
 		auto _selfApply(Matrix_4x4& m) -> Matrix_4x4& {
 			i.set(
 				i.getX()*m.i.getX()+j.getX()*m.i.getY()+k.getX()*m.i.getZ()+l.getX()*m.i.getW(),		
@@ -2002,7 +2025,7 @@ namespace math{
 			return *this;
 		}
 
-		inline constexpr
+		inline 
 		auto solveFor(const Vector4& results) const -> Vector4 {
 			auto det{ determinant() };
 			
@@ -2044,7 +2067,7 @@ namespace math{
 			return this->scaled(1.f/divisor);
 		}
 
-		inline constexpr
+		inline 
 		auto operator=(const Matrix_4x4& other) -> Matrix_4x4&{
 			this->i.set(other.i);
 			this->j.set(other.j);
@@ -2054,17 +2077,17 @@ namespace math{
 			return *this;
 		}
 
-		inline constexpr
+		inline 
 		auto operator/=(const float& divisor) -> Matrix_4x4&{
 			return this->_scale(1.f/divisor);
 		}
 
-		inline constexpr
+		inline 
 		auto operator*=(const float& factor) -> Matrix_4x4&{
 			return this->_scale(factor);
 		}
 
-		inline constexpr
+		inline 
 		auto operator[](int index) -> Vector4& {
 			switch(index){	
 				case 0: return this->i;	
@@ -2121,11 +2144,6 @@ namespace math{
    	}
 	
 	inline constexpr
-	auto differentiate(const float& func) -> float {
-		return 0;
-	}
-
-	inline constexpr
 	auto integrate(const float& func) -> Vector2 {
 		return Vector2(func, 0.f); 
 	}
@@ -2164,28 +2182,28 @@ namespace math{
 		Rect(float x, float y, float width, float height)
 		:x{x}, y{y}, width{width}, height{height}{}
 
-		inline constexpr
+		inline 
 		auto getXMin() const -> float {
 			[[likely]]
 			if(width > 0) return x;
 			return x+width;
 		}
 
-		inline constexpr
+		inline 
 		auto getXMax() const -> float {
 			[[likely]]
 			if(width > 0) return x+width;
 			return x;
 		}
 
-		inline constexpr
+		inline 
 		auto getYMax() const -> float {
 			[[likely]]
 			if(height > 0) return y+height;
 			return y;
 		}
 
-		inline constexpr
+		inline 
 		auto getYMin() const -> float {
 			[[likely]]
 			if(height > 0) return y;
@@ -2206,7 +2224,7 @@ namespace math{
 			return r1.cross_prod(r2); 
 		}
 
-		inline constexpr
+		inline 
 		auto isParallel(const Plane3& other) -> bool {
 			return this->getNormal().cross_prod(other.getNormal()).equals( {0.f, 0.f, 0.f} );
 		}
@@ -2240,7 +2258,7 @@ namespace math{
 			return b;
 		}
 
-		inline constexpr
+		inline 
 		auto intersect_fraction(const Rect& rectangle) const -> float {
 			auto fract{ Vector2(
 				((rectangle.getYMin() - a.getY())/(b.getY() - a.getY())),
@@ -2326,7 +2344,7 @@ namespace math{
 		return Line3(pos, (pos+dir));
 	}
 
-	inline constexpr
+	inline 
     auto lerp(const float& goal, const float& current, const float& step)-> float {
     	auto dif{ goal - current };
     	[[likely]]
@@ -2350,7 +2368,7 @@ namespace math{
 		return current.add(fwd); 
     }
 
-	inline constexpr
+	inline 
 	auto quadratic_bezier(const float& p0, const float& p1, const float& p2, const float& progress) -> float {
 		auto pr1{ fabs(p1-p0)*progress };	
 		auto pr2{ fabs(p2-p1)*progress };
@@ -2394,7 +2412,7 @@ namespace math{
 		return a>b?a:b;
 	}
 
-    inline constexpr
+    inline 
     auto powZ(const float& b, const int& exp)-> float {
         [[unlikely]]
         if(b == 0){
