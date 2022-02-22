@@ -1134,6 +1134,25 @@ namespace math{
 		}
 
 		inline 
+		auto eigen_values() const -> std::pair<float, float> {
+			const auto char_poly{ 
+				Vector3{ 
+					-1.f, 
+					(this->j.getY()-this->i.getX()),
+					(this->j.getY()*this->i.getX() - this->i.getY()*this->j.getX())
+				}
+			};
+			
+			return char_poly.solve();
+		}
+
+		inline
+		auto eigen_vector(const float& eigen_value) -> Vector2 {
+			const auto tmp{ this->sub(Matrix_2x2::identity().scaled(eigen_value)) };
+			return tmp.solveFor({0, 0});
+		}
+
+		inline 
 		auto _transpose() -> Matrix_2x2 {
 			auto tmp{ this->i.getY() };
 			this->i.setY(this->j.getX());
@@ -1283,17 +1302,17 @@ namespace math{
 			return sub(other);	
 		}
 		inline constexpr
-		auto operator*(const float& factor) const -> Matrix_2x2{
+		auto operator*(const float& factor) const -> Matrix_2x2 {
 			return this->scaled(factor);
 		}
 
 		inline constexpr
-		auto operator/(const float& divisor) const -> Matrix_2x2{
+		auto operator/(const float& divisor) const -> Matrix_2x2 {
 			return this->scaled(1.f/divisor);
 		}
 
 		inline 
-		auto operator=(const Matrix_2x2& other) -> Matrix_2x2&{
+		auto operator=(const Matrix_2x2& other) -> Matrix_2x2& {
 			this->i.set(other.i);
 			this->j.set(other.j);
 			
@@ -1301,12 +1320,12 @@ namespace math{
 		}
 
 		inline 
-		auto operator/=(const float& divisor) -> Matrix_2x2&{
+		auto operator/=(const float& divisor) -> Matrix_2x2& {
 			return this->_scale(1.f/divisor);
 		}
 
 		inline 
-		auto operator*=(const float& factor) -> Matrix_2x2&{
+		auto operator*=(const float& factor) -> Matrix_2x2& {
 			return this->_scale(factor);
 		}
 
@@ -1337,18 +1356,13 @@ namespace math{
 		-> std::ostream&;
 	};
 
-	inline constexpr
-	auto operator*(float scalar, const Matrix_2x2& m) -> Matrix_2x2 {
-		return m.scaled(scalar);
-	}
-
 	inline 
-	auto operator<<(std::ostream &out, const Matrix_2x2& m) 
+	auto operator<<(std::ostream &out) 
 	-> std::ostream& {
-       	out << "[ " 	<< m.i.getX() 
-			<< " | " 	<< m.j.getX() 
-			<< " ]\n[ " << m.i.getY() 
-			<< " | " 	<< m.j.getY() 
+       	out << "[ " 	<< this->i.getX() 
+			<< " | " 	<< this->j.getX() 
+			<< " ]\n[ " << this->i.getY() 
+			<< " | " 	<< this->j.getY() 
 			<< " ]";
    		return out;
    	}
