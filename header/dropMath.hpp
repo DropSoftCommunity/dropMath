@@ -383,7 +383,6 @@ namespace math{
 			static constexpr float tolerance{ floatTolerance };
 
 			static constexpr auto infinity() -> Vector3 {
-				const auto inf{ std::numeric_limits<float>::infinity()};
 				return Vector3(inf, inf, inf);
 			}
 
@@ -761,7 +760,6 @@ namespace math{
 			static constexpr float tolerance{ floatTolerance };
 
 			static constexpr auto infinity() -> Vector4 {
-				const auto inf{ std::numeric_limits<float>::infinity()};
 				return Vector4(inf, inf, inf, inf);
 			}
 
@@ -2157,6 +2155,59 @@ namespace math{
    		return out;
    	}
 	
+	class Quaternion{
+		Vector3 v;
+		float w;
+	
+	public:
+		inline constexpr
+		Quaternion():v{}, w{} {}
+
+		inline 
+		Quaternion(const Vector3& n, float a=0.f):v{n}, w{a} {
+			a = a/360 * ( PI*2 );
+			w = cos(a/2);
+			v = n*sin(a/a);
+		}
+
+		inline 
+		auto inverted() const -> Quaternion{
+			Quaternion q;
+			q.w = w;
+			q.v = 1*v;
+			return q;
+		}
+
+		inline 
+		auto applyTo(const Quaternion& other) const -> Quaternion {
+			Quaternion r;
+			r.w = w*other.w + v.dot_prod(other.v);
+			r.v = v*other.w + other.v*w + v.cross_prod(other.v);
+
+			return r;
+		}
+
+		inline 
+		auto applyTo(const Vector3& v) const -> Vector3 {
+			Quaternion r;
+			r.w = 0;
+			r.v = v;
+
+			Vector3 n = this->v.cross_prod(v);
+			return (v+n*(2*w) + v.cross_prod(n)*2);
+		}
+
+		inline constexpr
+		auto operator*(const Quaternion& other) const -> Quaternion {
+			return this->applyTo(other);
+		}
+
+		inline constexpr
+		auto operator*(const Vector3& v) const -> Vector3 {
+			return this->applyTo(v);
+		}
+	};
+
 	inline constexpr
 	auto integrate(const float& func) -> Vector2 {
 		return Vector2(func, 0.f); 
