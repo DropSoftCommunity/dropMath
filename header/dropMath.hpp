@@ -4,6 +4,7 @@
 #include <iostream>
 #include <limits>
 #include <utility>
+#include <tuple>
 
 namespace drop{
 namespace math{
@@ -976,6 +977,13 @@ namespace math{
 				return *this;
 			}
 
+			inline 
+			auto solve() -> std::tuple<float, float, float> {
+				//TODO: Cardano formula
+
+				return std::tuple<float, float, float>();
+			}
+
 			inline constexpr
 			auto operator*(const float& factor) const -> Vector4 {
 				return this->scaled(factor);
@@ -1598,6 +1606,37 @@ namespace math{
 			auto d3{ m3.determinant() };
 
 			return Vector3(d1/det, d2/det, d3/det);
+		}
+
+		inline constexpr
+		auto eigen_values() const -> std::tuple<float, float, float> {
+			auto a{ this->i.getX() };
+			auto b{ this->i.getY() };
+			auto c{ this->i.getZ() };
+			auto d{ this->j.getX() };
+			auto e{ this->j.getY() };
+			auto f{ this->j.getZ() };
+			auto g{ this->k.getX() };
+			auto h{ this->k.getY() };
+			auto i{ this->k.getZ() };
+
+			auto poly{ Vector4{
+				-1.f,
+				a+e+i,
+				-a*e-d*i-e*i+e*g+f*h+b*d,
+				d*h*c+g*b*f-c*g*e-f*h*a-b*d*i
+			}};
+
+			poly.solve();
+		}
+
+		inline
+		auto eigen_vector(const float& eigen_value) -> Vector3 {
+			const auto tmp{ 
+				this->sub(Matrix_3x3::identity().scaled(eigen_value)) 
+			};
+
+			return tmp.solveFor({0, 0});
 		}
 
 		inline constexpr
