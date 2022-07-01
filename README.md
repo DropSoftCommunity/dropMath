@@ -17,8 +17,8 @@
 ### Table of Contents
 - [Description](#about)
 - [Installation](#installation)
-- [Usage Examples] (#examples)
-- [Documentation] (#documentation)
+- [Usage Examples](#examples)
+- [Documentation](#documentation)
 - [Contact](#contact)
 
 
