@@ -1,14 +1,12 @@
-<img src="icon.png" align="right" />
+<img src="./.res/icon.png" align="right" />
 
 # dropMath
 
-| :warning:  This Library is under active development and not ready for production yet!   |
+| :star: dropMath is a simple single header math library. Especially intended for games.  |
 |-----------------------------------------------------------------------------------------|
 
 > :star: We are looking for more developers. Feel free to contribute!
 
-
-> :star: The simple single header math library
 
 [![CircleCI](https://circleci.com/gh/DropSoftCommunity/dropMath/tree/main.svg?style=svg)](https://circleci.com/gh/DropSoftCommunity/dropMath/tree/main)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
@@ -39,7 +37,7 @@ to have a modern C++ interface for the math library they are using.
 To install and use dropMath you only need to include the header (header/dropMath)
 in this repository.
 
-[![Installation](https://i9.ytimg.com/vi_webp/SEkMLR5pExY/mqdefault.webp?v=61f1f237&sqp=CJzyx48G&rs=AOn4CLAbzCp-ugVV3butSiogv2LwoBgXSA)](https://youtu.be/SEkMLR5pExY)
+[![Installation](./.res/thumb.png)](https://youtu.be/SEkMLR5pExY)
 
 ### Download the header
 
@@ -69,7 +67,13 @@ int main(){
 
 ## Examples
 
+![BezierExample](./.res/bezierExample.png)
+
+You can find some example usage of the library in the [examples](./examples/) directory
+of this repository.
+
 ## Documentation
+This still needs to be done...
 
 ### Contact
 [![Discord](https://badgen.net/discord/online-members/89K69wtz8F)](https://discord.gg/89K69wtz8F)
