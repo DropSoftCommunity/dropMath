@@ -60,11 +60,6 @@ namespace math{
 				changed_length{true}, x{other.x}, y{other.y}{
 			}
 
-			/*
-			Vector2(const Vector3& vec3): x{vec3.x}, y{vec3.y}{
-			}
-			*/
-			
 			inline constexpr
 			auto getX() const -> float {
 				return this->x;
@@ -975,13 +970,6 @@ namespace math{
 				this->z += other.getZ();
 				this->w += other.getW();
 				return *this;
-			}
-
-			inline 
-			auto solve() -> std::tuple<float, float, float> {
-				//TODO: Cardano formula
-
-				return std::tuple<float, float, float>();
 			}
 
 			inline constexpr
