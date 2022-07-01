@@ -67,7 +67,7 @@ int main(){
 
 ## Examples
 
-![BezierExample](./.res/bezierExample.png)
+![BezierExample](./.res/bezier_example.png)
 
 You can find some example usage of the library in the [examples](./examples/) directory
 of this repository.
