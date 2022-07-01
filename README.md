@@ -2,8 +2,8 @@
 
 # dropMath
 
-| :star: dropMath is a simple single header math library. Especially intended for games.  |
-|-----------------------------------------------------------------------------------------|
+| dropMath is a simple single header math library intended to be used in games. |
+|-------------------------------------------------------------------------------|
 
 > :star: We are looking for more developers. Feel free to contribute!
 
