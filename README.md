@@ -72,6 +72,10 @@ int main(){
 You can find some example usage of the library in the [examples](./examples/) directory
 of this repository.
 
+We do also have a YouTube Playlist with usage examples:
+[![ExamplePlaylist](./.res/thumb.png)](https://youtube.com/playlist?list=PLTjUlazALHSAA-VpiKxJCDdx2MRvEnBw1)
+
+
 ## Documentation
 This still needs to be done...
 
