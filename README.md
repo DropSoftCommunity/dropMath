@@ -15,11 +15,11 @@
 ---
 
 ### Table of Contents
-- [Description](#About)
-- [Installation](#Installation)
-- [Usage Examples] (#Examples)
-- [Documentation] (#Documentation)
-- [Contact](#Contact)
+- [Description](#about)
+- [Installation](#installation)
+- [Usage Examples] (#examples)
+- [Documentation] (#documentation)
+- [Contact](#contact)
 
 
 ---
