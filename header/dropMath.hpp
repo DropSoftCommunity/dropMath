@@ -977,13 +977,6 @@ namespace math{
 				return *this;
 			}
 
-			inline 
-			auto solve() -> std::tuple<float, float, float> {
-				//TODO: Cardano formula
-
-				return std::tuple<float, float, float>();
-			}
-
 			inline constexpr
 			auto operator*(const float& factor) const -> Vector4 {
 				return this->scaled(factor);
