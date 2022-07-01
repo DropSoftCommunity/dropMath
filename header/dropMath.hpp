@@ -1627,7 +1627,7 @@ namespace math{
 				d*h*c+g*b*f-c*g*e-f*h*a-b*d*i
 			}};
 
-			poly.solve();
+			return poly.solve();
 		}
 
 		inline
@@ -2141,10 +2141,10 @@ namespace math{
 		inline 
 		auto operator[](int index) -> Vector4& {
 			switch(index){	
-				case 0: return this->i;	
-				case 1: return this->j;	
-				case 2: return this->k;	
-				default: return this->l;	
+				case 0: 	return this->i;	
+				case 1: 	return this->j;	
+				case 2: 	return this->k;	
+				default: 	return this->l;	
 			}
 		}
 
@@ -2419,34 +2419,6 @@ namespace math{
 			return this->getDir();
 		}
 	};
-
-	inline 
-	auto intersect_angle(const Line3& line, const Plane3& plane) -> float {
-		return asinf(fabs(plane.getNormal().dot_prod(line.getDir()))
-						/(plane.getNormal().length()*line.getDir().length())
-				);
-	}
-
-	inline 
-	auto intersect_angle(const Plane3& plane, const Line3& line) -> float {
-		return intersect_angle(line, plane);
-	}
-	
-	inline 
-	auto intercet_angle(const Plane3& p1, const Plane3& p2) -> float {
-		return acosf((p1.getNormal().dot_prod(p2.getNormal()))
-					/(p1.getNormal().length()*p2.getNormal().length())
-				);
-	}
-
-    inline 
-	auto intersect_line(const Plane3& p1, const Plane3& p2) -> Line3 {
-		auto pos{ p1.getNormal().cross_prod(p2.getNormal()) };
-		auto dir{ Vector3(1.f, 1.f, 1.f) };
-		//TODO: calculate dir
-
-		return Line3(pos, (pos+dir));
-	}
 
 	inline 
     auto lerp(const float& goal, const float& current, const float& step)-> float {
