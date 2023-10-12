@@ -80,4 +80,4 @@ We do also have a YouTube Playlist with usage examples:
 This still needs to be done...
 
 ### Contact
-![Discord](https://discord.dropsoft.org)
+[Discord](https://discord.dropsoft.org)
