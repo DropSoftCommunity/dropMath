@@ -1186,6 +1186,11 @@ namespace math{
 			};
 		}
 
+    inline constexpr
+    auto operator=(const float& scalar) const -> Matrix_2x2 {
+      return this->scaled(scalar);
+    }
+
 		inline 
 		auto _scale(const float& scalar) -> Matrix_2x2& {
 			this->i._scale(scalar);
@@ -1350,16 +1355,12 @@ namespace math{
 		-> std::ostream&;
 	};
 
-	inline 
-	auto operator<<(std::ostream &out) 
-	-> std::ostream& {
-       	out << "[ " 	<< this->i.getX() 
-			<< " | " 	<< this->j.getX() 
-			<< " ]\n[ " << this->i.getY() 
-			<< " | " 	<< this->j.getY() 
-			<< " ]";
-   		return out;
-   	}
+  inline
+	auto operator<<(std::ostream &out, const Matrix_2x2& m) -> std::ostream& {
+    return out 
+      << "[" << m.i.getX() << "|" << m.j.getX() << "]\n"
+      << "[" << m.i.getY() << "|" << m.j.getY() << "]\n";
+  }
 
 	class Matrix_3x3 {
 		Vector3 i, j, k;
@@ -1594,28 +1595,6 @@ namespace math{
 			auto d3{ m3.determinant() };
 
 			return Vector3(d1/det, d2/det, d3/det);
-		}
-
-		inline constexpr
-		auto eigen_values() const -> std::tuple<float, float, float> {
-			auto a{ this->i.getX() };
-			auto b{ this->i.getY() };
-			auto c{ this->i.getZ() };
-			auto d{ this->j.getX() };
-			auto e{ this->j.getY() };
-			auto f{ this->j.getZ() };
-			auto g{ this->k.getX() };
-			auto h{ this->k.getY() };
-			auto i{ this->k.getZ() };
-
-			auto poly{ Vector4{
-				-1.f,
-				a+e+i,
-				-a*e-d*i-e*i+e*g+f*h+b*d,
-				d*h*c+g*b*f-c*g*e-f*h*a-b*d*i
-			}};
-
-			return poly.solve();
 		}
 
 		inline

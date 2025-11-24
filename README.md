@@ -7,9 +7,7 @@
 
 > :star: We are looking for more developers. Feel free to contribute!
 
-
 [![CircleCI](https://circleci.com/gh/DropSoftCommunity/dropMath/tree/main.svg?style=svg)](https://circleci.com/gh/DropSoftCommunity/dropMath/tree/main)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![CPP](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 
 ---
@@ -20,7 +18,6 @@
 - [Usage Examples](#examples)
 - [Documentation](#documentation)
 - [Contact](#contact)
-
 
 ---
 
@@ -33,9 +30,41 @@ The main target audience for this library are game developers who want
 to have a modern C++ interface for the math library they are using.
 
 ## Installation
+### Using CPM.cmake
 
-To install and use dropMath you only need to include the header (header/dropMath)
-in this repository.
+The preferred method of installing this library is through the cpm package manager that you can find here:
+
+> https://github.com/cpm-cmake/CPM.cmake
+
+Once you have CPM "installed" you can use dropMath like so:
+
+```cmake
+CPMAddPackage("gh:Erarnitox/dropMath#main")
+target_link_libraries(your_executable PRIVATE dropMath::dropMath)
+```
+
+### Using CMake FetchContent
+
+You can also install the library using the CMake built in function `FetchContent` directly, without using a package manager like so:
+
+```cmake
+include(FetchContent)
+
+FetchContent_Declare(
+    dropMath
+    GIT_REPOSITORY https://github.com/Erarnitox/dropMath.git 
+    GIT_TAG main
+    GIT_PROGRESS TRUE
+)
+
+FetchContent_MakeAvailable(dropMath)
+
+target_link_libraries(your_executable PRIVATE dropMath::dropMath)
+```
+
+### If you are not using CMake
+
+To install and use dropMath, and you are not using CMake, you only need to include the header (header/dropMath) in this repository.
 
 [![Installation](./.res/thumb.png)](https://youtu.be/SEkMLR5pExY)
 
@@ -43,16 +72,16 @@ in this repository.
 
 In your project directory run:
 ```sh
-wget https://raw.githubusercontent.com/DropSoftCommunity/dropMath/main/header/dropMath.hpp
+wget https://raw.githubusercontent.com/DropSoftCommunity/dropMath/main/dropMath.hpp
 ```
 You should now have the header file `dropMath.hpp` in your project directory.
 
-### Use the dropMath header
+### Using dropMath
 
 You should now be able to include the header from the same directory in your
 source files like this:
 ```C++
-#include "dropMath.cpp" //include dropMath
+#include "dropMath.hpp" //include dropMath
 
 int main(){
 	/*Drop Math can now be used.
@@ -75,9 +104,7 @@ of this repository.
 We do also have a YouTube Playlist with usage examples:
 [![ExamplePlaylist](./.res/thumb.png)](https://youtube.com/playlist?list=PLTjUlazALHSAA-VpiKxJCDdx2MRvEnBw1)
 
-
-## Documentation
-This still needs to be done...
-
 ### Contact
-[Discord](https://discord.dropsoft.org)
+**Discord:** `@erarnitox`
+**X:** `@erarnitox`
+

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../header/dropMath.hpp"
+#include "dropMath.hpp"
 #include "Timer.hpp"
 
 inline

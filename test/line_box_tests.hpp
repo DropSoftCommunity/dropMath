@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../header/dropMath.hpp"
+#include <dropMath.hpp>
 #include "Timer.hpp"
 
 inline 
@@ -18,7 +18,7 @@ auto line_box_test() -> bool {
 	 *      A
 	 */
 	{
-		using Line2d = drop::math::Line2d;
+		using Line2d = drop::math::Line2;
 		using Rect = drop::math::Rect;
 
 		auto intersect_test{ Timer("Line-Box Intersect") };

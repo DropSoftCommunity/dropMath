@@ -1,9 +1,9 @@
 #include "common.hpp"
 
 //examples:
-#include "./Bezier.h"
-#include "./Vectors.h"
-#include "./Matrices.h"
+#include "Bezier.h"
+#include "Vectors.h"
+#include "Matrices.h"
 
 int main(){
 	bezier();

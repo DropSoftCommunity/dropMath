@@ -1,4 +1,4 @@
-#include "../header/dropMath.hpp"
+#include "dropMath.hpp"
 #include <cassert>
 #include <iostream>
 #include "Timer.hpp"

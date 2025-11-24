@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../header/dropMath.hpp"
+#include <dropMath.hpp>
 #include "Timer.hpp"
 
 bool general_tests(){
@@ -39,7 +39,7 @@ bool general_tests(){
 		<< a.transposed() << std::endl;
 
 		std::cout << "A Transposed + 5B:\n"
-		<< (a._transpose() + 5.f*b) << std::endl;
+		<< (a._transpose() + b*5.0f) << std::endl;
 		
 		std::cout << "A^T*B*C :\n"
 		<< a.applyTo(b.applyTo(c)) << std::endl;

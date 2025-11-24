@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Timer.hpp"
-#include "../header/dropMath.hpp"
+#include "dropMath.hpp"
 #include <cassert>
 inline
 auto Vector3_test() -> bool {

@@ -1,6 +1,7 @@
 # build directory
 ./test/build/*
 ./examples/build/*
+build
 
 # Prerequisites
 *.d
